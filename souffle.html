@@ -7,8 +7,47 @@
 </head>
 <body>
     <h1>Yoooo, souffle sur ton tel pour voir</h1>
+    <p>coucou</p>
+    <button class="startRecord">Start recording</button>
+    <button class="stopRecord">Start recording</button>
+    <script>
+        const startRecord = document.querySelector('.startRecord')
+        const stopRecord = document.querySelector('.stopRecord')
+
+        stopRecord.disabled = true
+
+       if(navigator.mediaDevices.getUserMedia){
+            console.log('getUserMedia supported')
+
+            const constraints = { audio : true}
+            let chunks = []
+
+            let onSuccess = (stream) => {
+                const mediaRecorder = new MediaRecorder(stream)
+
+                startRecord.onclick = () => {
+                    mediaRecorder.start()
+                    console.log('start recording')
+
+                }
+                
+                mediaRecorder.ondataavailable = function(e) {
+                chunks.push(e.data);
+            }
+                console.log('coucou')
+            }
+
+
+            let onError = () => {
+
+            }
+    
+           navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError)
+
+
+       }
+
+    
+    </script>
 </body>
-<script>
-    console.log('hello souffle')
-</script>
 </html>
