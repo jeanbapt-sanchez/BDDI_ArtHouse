@@ -8,10 +8,11 @@
 <body>
     <h1>Lance pierre</h1>
     <script>
-        src.addEventListener('touchstart', function(e) {
+        document.addEventListener('touchmove', function(e) {
             // Cache the client X/Y coordinates
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
+            console.log('x : ', clientX, ' y : ', clientY)
         }, false);
     </script>
 </body>
