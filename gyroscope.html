@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gyroscope</title>
+</head>
+<body>
+    <h1>Penche ton smartphone</h1>
+    <script>
+        let handleOrientation = (event) => {
+            let absolute = event.absolute;
+            let alpha    = event.alpha;
+            let beta     = event.beta;
+            let gamma    = event.gamma;
+
+            console.log(alpha, beta, gamma)
+        }
+        window.addEventListener("deviceorientation", handleOrientation, true);
+    </script>
+</body>
+</html>
