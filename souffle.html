@@ -1,78 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Souffle</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Yoooo, souffle sur ton tel pour voir</h1>
+    <p>coucou 3</p>
     <p>coucou</p>
     <button class="start">Start mic</button>
-    <div class="circle" style="height: 40px; width: 40px; background: red; border-radius:50px;">
 
+    <div
+      class="circle"
+      style="
+        height: 40px;
+        width: 40px;
+        background: red;
+        border-radius: 50px;
+        z-index: 1000;
+      "
+    ></div>
+    <div
+      style="
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: flex-end;
+      "
+    >
+      <button class="stop">stop mic</button>
     </div>
-    <p>coucou 3</p>
     <script>
-        let audioCtx;
-        let circle = document.querySelector('.circle')
-        let start = document.querySelector('.start')
-        navigator.getUserMedia = navigator.getUserMedia || navigator.mediaDevices.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        start.addEventListener('click', () => {
-            if(navigator.mediaDevices.getUserMedia){
-            console.log('getUserMedia supported')
+      let audioCtx;
+      let circle = document.querySelector(".circle");
+      let start = document.querySelector(".start");
+      let stopMic = document.querySelector(".stop");
+      navigator.getUserMedia =
+        navigator.getUserMedia ||
+        navigator.mediaDevices.getUserMedia ||
+        navigator.webkitGetUserMedia ||
+        navigator.mozGetUserMedia ||
+        navigator.msGetUserMedia;
 
-            const constraints = { audio : true }
-            let chunks = [];
+      let progressionAudioAnim = 0;
+      let audioStream;
 
-            let onSuccess = function(stream) {
-                const mediaRecorder = new MediaRecorder(stream)
-                visualize(stream)
-                mediaRecorder.ondataavailable = function(e) {
-                    chunks.push(e.data);
-                }
-            }
+      function visualize(stream) {
+        if (!audioCtx) {
+          const myAudioContext =
+            window.AudioContext || window.webkitAudioContext;
+          audioCtx = new myAudioContext();
+        }
 
+        const source = audioCtx.createMediaStreamSource(stream);
 
-            let onError = () => {
-                console.log('The following error occured: ' + err);
-            }
-           navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError)
-       }
-    
-        function visualize(stream) {
-            if(!audioCtx) {
-                const myAudioContext = window.AudioContext || window.webkitAudioContext;
-                audioCtx = new myAudioContext();
-            }
+        const analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 2048;
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
 
-            const source = audioCtx.createMediaStreamSource(stream);
+        source.connect(analyser);
+        function update() {
+          requestAnimationFrame(update);
 
-            const analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 2048;
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
+          analyser.getByteTimeDomainData(dataArray);
 
-            source.connect(analyser);
-            let progressionAudioAnim = 0
-            function update() {
-                requestAnimationFrame(update)
+          if (dataArray[1] > 160) {
+            progressionAudioAnim++;
+          }
 
-                analyser.getByteTimeDomainData(dataArray);
-                // console.log(dataArray, bufferLength)
-                console.log(dataArray[1], progressionAudioAnim)
+          console.log("prog", progressionAudioAnim);
 
-                if(dataArray[1] > 190){
-                    progressionAudioAnim++
-                }
-            
-                circle.style.transform = `scale(${dataArray[1] / 6})`
-            }
-            update()
-            //analyser.connect(audioCtx.destination);
-}
-        })
-      
+          circle.style.transform = `scale(${dataArray[1] / 8})`;
+        }
+        if ((progressionAudioAnim = 0)) {
+          stream
+            .getTracks() // get all tracks from the MediaStream
+            .forEach((track) => track.stop());
+        }
+        update();
+        //analyser.connect(audioCtx.destination);
+      }
+
+      start.addEventListener("click", () => {
+        if (navigator.mediaDevices.getUserMedia) {
+          console.log("getUserMedia supported");
+
+          const constraints = { audio: true };
+          let chunks = [];
+
+          let onSuccess = stream => {
+            // mediaRecorder = new MediaRecorder(stream);
+            audioStream = stream.getAudioTracks().length && stream.getAudioTracks()[0];
+            console.log(stream)
+            visualize(stream);
+          };
+
+          let onError = () => {
+            console.log("The following error occured: " + err);
+          };
+          navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(onSuccess, onError);
+        }
+      });
+      stopMic.addEventListener("click", () => {
+        audioStream.stop()
+        console.log('stop')
+      });
     </script>
-</body>
+  </body>
 </html>
