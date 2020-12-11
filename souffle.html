@@ -91,10 +91,8 @@
           let chunks = [];
 
           let onSuccess = stream => {
-            // mediaRecorder = new MediaRecorder(stream);
             audioStream = stream.getAudioTracks().length && stream.getAudioTracks()[0];
-            console.log(stream)
-            visualize(stream);
+            visualize(stream)
           };
 
           let onError = () => {
