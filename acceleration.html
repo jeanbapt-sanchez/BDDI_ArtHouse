@@ -11,7 +11,6 @@
         let progressionFaceDisplaying = 0
         try{
             window.addEventListener('devicemotion', function(event) {
-            // console.log('x : ', event.acceleration.x + ' m/s2', 'y : ', event.acceleration.y);
             
             if(event.acceleration.y > 50){
                 progressionFaceDisplaying++
