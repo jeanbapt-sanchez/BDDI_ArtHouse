@@ -15,18 +15,29 @@
 </head>
 <body>
     <h1>heyyyyo</h1>
-    <p><img class="flowers" width="50px" height="50px" style="position:absolute;" src="img/picture.png" alt="sasa"></p>
+    <p><img class="flowers" style="position:absolute;" src="img/picture.png" alt="sasa"></p>
     <script>
+        const WIDTH_IMG = 50
+        const HEIGHT_IMG = 50
         let flowers = document.querySelector('.flowers');
+        flowers.style.width = `${WIDTH_IMG}px`
+        flowers.style.height = `${HEIGHT_IMG}px`
         // let previousClientX = 0
+        document.addEventListener('touchstart', (e) => {
+            clientX = e.touches[0].clientX - WIDTH_IMG/2;
+            clientY = e.touches[0].clientY - HEIGHT_IMG/2;
+            flowers.style.top = `${clientY}px`
+            flowers.style.left = `${clientX}px`
+        })
         document.addEventListener('touchmove', function(e) {
             // Cache the client X/Y coordinates
             e.preventDefault()
-            clientX = e.touches[0].clientX - 25;
-            clientY = e.touches[0].clientY - 25;
+            clientX = e.touches[0].clientX - WIDTH_IMG/2;
+            clientY = e.touches[0].clientY - HEIGHT_IMG/2;
             flowers.style.top = `${clientY}px`
             flowers.style.left = `${clientX}px`
         }, false);
+
         document.addEventListener('touchmove', (ev) => {
             ev.preventDefault()
         }, false)
