@@ -2,18 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lance pierre</title>
+    <meta name="viewport" content="width=1, initial-scale=1, maximum-scale=1">
+    <title>CC</title>
+    <style>
+        html, body {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        } 
+    </style>
 </head>
 <body>
-    <h1>Lance pierre</h1>
+    <h1>heyyyyo</h1>
+    <p><img class="flowers" width="50px" height="50px" style="position:absolute;" src="img/picture.png" alt="sasa"></p>
     <script>
+        let flowers = document.querySelector('.flowers');
+        // let previousClientX = 0
         document.addEventListener('touchmove', function(e) {
             // Cache the client X/Y coordinates
-            clientX = e.touches[0].clientX;
-            clientY = e.touches[0].clientY;
-            console.log('x : ', clientX, ' y : ', clientY)
+            e.preventDefault()
+            clientX = e.touches[0].clientX - 25;
+            clientY = e.touches[0].clientY - 25;
+            flowers.style.top = `${clientY}px`
+            flowers.style.left = `${clientX}px`
         }, false);
+        document.addEventListener('touchmove', (ev) => {
+            ev.preventDefault()
+        }, false)
     </script>
 </body>
 </html>
