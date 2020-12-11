@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walking</title>
+</head>
+<body>
+    <h1>Marche avec le personnage</h1>
+    <script>
+        let steps = 0
+        try{
+            window.addEventListener('devicemotion', function(event) {
+            // console.log('x : ', event.acceleration.x + ' m/s2', 'y : ', event.acceleration.y);
+            
+            if(event.acceleration.x > 2){
+                steps++
+                console.log(steps)
+            }
+        });
+        } catch (e){
+            console.log('erreur', e)
+        }
+    </script>
+</body>
+</html>
