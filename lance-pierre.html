@@ -13,10 +13,13 @@
         } 
     </style>
 </head>
+
 <body>
     <h1>heyyyyo</h1>
     <p><img class="flowers" style="position:absolute;" src="img/picture.png" alt="sasa"></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js" integrity="sha512-HmaXasRYOQJEXJWYwYCMcIA/XnPtW9WPvaBVWE2mQP6K31sRdcgaYUyB//P5540J4hFqMBcj6vkDEEGkwHkYdA==" crossorigin="anonymous"></script>
     <script>
+        let zt = new ZingTouch.Region(document.body)
         const WIDTH_IMG = 50
         const HEIGHT_IMG = 50
         let flowers = document.querySelector('.flowers');
@@ -29,6 +32,7 @@
             flowers.style.top = `${clientY}px`
             flowers.style.left = `${clientX}px`
         })
+
         document.addEventListener('touchmove', function(e) {
             // Cache the client X/Y coordinates
             e.preventDefault()
@@ -41,6 +45,11 @@
         document.addEventListener('touchmove', (ev) => {
             ev.preventDefault()
         }, false)
+
+        console.log(zt)
+        zt.bind(document.body, 'tap', function(e){
+            console.log('tap')
+        }, false);
     </script>
 </body>
 </html>
