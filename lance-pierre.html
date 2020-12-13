@@ -22,6 +22,8 @@
         let zt = new ZingTouch.Region(document.body)
         const WIDTH_IMG = 50
         const HEIGHT_IMG = 50
+        let force = 0
+
         let flowers = document.querySelector('.flowers');
         flowers.style.width = `${WIDTH_IMG}px`
         flowers.style.height = `${HEIGHT_IMG}px`
@@ -42,32 +44,26 @@
             flowers.style.left = `${clientX}px`
         }, false);
 
-        document.addEventListener('touchmove', (ev) => {
-            ev.preventDefault()
-        }, false)
-
-        let myPan =  new ZingTouch.Pan({
-            numInputs: 1,
+        const pan = new ZingTouch.Pan({
+            numInputs: 1
         })
 
-        let nbCircles = 0
-        let isHalfTour = false
-        let isSecondHalfTour = false
-        zt.bind(document.body, myPan, function(e){
+        zt.bind(document.body, pan, function(e){
+
+            e.preventDefault()
             let data = e.detail.data[0]
-            if(data.directionFromOrigin > 175 && data.directionFromOrigin < 185 && data.distanceFromOrigin > 20){
-                isHalfTour = true
-            } else if (data.directionFromOrigin > 350){
-                isSecondHalfTour = true
-            }
+            console.log(e.detail.data)
+            force = data.distanceFromOrigin
 
-            if(isHalfTour && isSecondHalfTour){
-                nbCircles++
-                isHalfTour = false
-                isSecondHalfTour = false
-            }
-
+            console.log(force)
+            
         }, false);
+
+        document.addEventListener('touchend', (e) => {
+            if(force > 150){
+                // TODO : Déclencher l'animation de la fleur
+            }
+        })
         
     </script>
 </body>
