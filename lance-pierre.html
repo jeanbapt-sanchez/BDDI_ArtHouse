@@ -46,10 +46,29 @@
             ev.preventDefault()
         }, false)
 
-        console.log(zt)
-        zt.bind(document.body, 'tap', function(e){
-            console.log('tap')
+        let myPan =  new ZingTouch.Pan({
+            numInputs: 1,
+        })
+
+        let nbCircles = 0
+        let isHalfTour = false
+        let isSecondHalfTour = false
+        zt.bind(document.body, myPan, function(e){
+            let data = e.detail.data[0]
+            if(data.directionFromOrigin > 175 && data.directionFromOrigin < 185 && data.distanceFromOrigin > 20){
+                isHalfTour = true
+            } else if (data.directionFromOrigin > 350){
+                isSecondHalfTour = true
+            }
+
+            if(isHalfTour && isSecondHalfTour){
+                nbCircles++
+                isHalfTour = false
+                isSecondHalfTour = false
+            }
+
         }, false);
+        
     </script>
 </body>
 </html>
