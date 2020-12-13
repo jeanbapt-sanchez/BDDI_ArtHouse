@@ -28,14 +28,28 @@
         }); 
         let zt = new ZingTouch.Region(document.body)
 
-        let distance = new ZingTouch.Expand()
-        console.log(distance)
+        let expand = new ZingTouch.Expand()
         let rect = document.querySelector('.rect')
 
-        zt.bind(document.body, distance, function(e){
-            // let data = e.detail
+        zt.bind(rect, expand, function(e){
+
             e.preventDefault()
-            console.log(e.detail.center)
+            let data = e.detail.distance
+            console.log(e.detail.distance)
+            let normalized = data * 2 / window.innerHeight
+            rect.style.transform = `scale(${normalized})`
+
+        }, false);
+
+        let pinch = new ZingTouch.Pinch()
+        zt.bind(rect, pinch, function(e){
+
+            e.preventDefault()
+            let data = e.detail.distance
+            console.log(e.detail.distance)
+            let normalized = data * 2 / window.innerHeight
+            // console.log(normalized)
+            rect.style.transform = `scale(${normalized})`
 
         }, false);
     </script>
