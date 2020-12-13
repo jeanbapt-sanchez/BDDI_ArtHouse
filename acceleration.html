@@ -5,16 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceleration</title>
 </head>
+<style>
+    .img{
+        opacity: 1;
+    }
+</style>
 <body>
     <h1>Secoueee ton smartphone</h1>
+    <img src="./img/index.jpg" class="img" alt="" />
     <script>
         let progressionFaceDisplaying = 0
+        let img = document.querySelector('.img')
         try{
             window.addEventListener('devicemotion', function(event) {
             
             if(event.acceleration.y > 50){
                 progressionFaceDisplaying++
                 console.log(progressionFaceDisplaying)
+            }
+            img.style.opacity = progressionFaceDisplaying / 10
+            if(progressionFaceDisplaying === 10){
+                // TODO : passer à l'animation suivante
             }
         });
         } catch (e){
