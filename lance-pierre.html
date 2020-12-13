@@ -23,6 +23,7 @@
         const WIDTH_IMG = 50
         const HEIGHT_IMG = 50
         let force = 0
+        let direction = 0
 
         let flowers = document.querySelector('.flowers');
         flowers.style.width = `${WIDTH_IMG}px`
@@ -52,16 +53,17 @@
 
             e.preventDefault()
             let data = e.detail.data[0]
-            console.log(e.detail.data)
+            // console.log(e.detail.data)
             force = data.distanceFromOrigin
-
-            console.log(force)
+            direction = data.directionFromOrigin
+            console.log(force, direction)
             
         }, false);
 
         document.addEventListener('touchend', (e) => {
-            if(force > 150){
-                // TODO : Déclencher l'animation de la fleur
+            if(force > 240 && direction > 170 && direction < 190){
+                // TODO : Déclencher l'animation de la
+                console.log('DECLENCHED ANIMATION')
             }
         })
         
