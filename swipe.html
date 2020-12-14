@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1, initial-scale=1, maximum-scale=1">
+    <title>CC</title>
+    <style>
+        html, body {
+            overflow: auto;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        } 
+    </style>
+</head>
+
+<body>
+    <h1>heyyyyo</h1>
+    <p><img class="flowers" style="position:absolute;" src="img/picture.png" alt="sasa"></p>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js" integrity="sha512-HmaXasRYOQJEXJWYwYCMcIA/XnPtW9WPvaBVWE2mQP6K31sRdcgaYUyB//P5540J4hFqMBcj6vkDEEGkwHkYdA==" crossorigin="anonymous"></script>
+    <script>
+        let zt = new ZingTouch.Region(document.body)
+        const WIDTH_IMG = 50
+        const HEIGHT_IMG = 50
+        let force = 0
+        let direction = 0
+
+        let flowers = document.querySelector('.flowers');
+        flowers.style.width = `${WIDTH_IMG}px`
+        flowers.style.height = `${HEIGHT_IMG}px`
+        // let previousClientX = 0
+        document.addEventListener('touchstart', (e) => {
+            clientX = e.touches[0].clientX - WIDTH_IMG/2;
+            clientY = e.touches[0].clientY - HEIGHT_IMG/2;
+            flowers.style.top = `${clientY}px`
+            flowers.style.left = `${clientX}px`
+        })
+
+        document.addEventListener('touchmove', function(e) {
+            // Cache the client X/Y coordinates
+            e.preventDefault()
+            clientX = e.touches[0].clientX - WIDTH_IMG/2;
+            clientY = e.touches[0].clientY - HEIGHT_IMG/2;
+            flowers.style.top = `${clientY}px`
+            flowers.style.left = `${clientX}px`
+        }, false);
+
+        const pan = new ZingTouch.Pan({
+            numInputs: 1
+        })
+        let tabDirection = []
+        let endTabDirection = []
+        
+        zt.bind(document.body, pan, function(e){
+            e.preventDefault()
+            let data = e.detail.data[0]
+            tabDirection.push(data.directionFromOrigin)
+            // console.log('direction : ' , data.directionFromOrigin)
+            force = data.distanceFromOrigin
+            direction = data.directionFromOrigin
+            // console.log(force, direction)
+            
+        }, false);
+        
+        document.addEventListener('touchend', (e) => {
+            console.log(tabDirection)
+            endTabDirection = tabDirection.filter((x) => x > 120 && x < 155)
+            console.log(endTabDirection.length, tabDirection.length)
+            // console.log(endTabDirection.length, tabDirection.length)
+            if(force > 240 && endTabDirection.length === tabDirection.length){
+                // TODO : Déclencher l'animation de la disparition des motifs.
+                console.log('DECLENCHED ANIMATION')
+            }
+            tabDirection = []
+            endTabDirection = []
+        })
+        
+    </script>
+</body>
+</html>
