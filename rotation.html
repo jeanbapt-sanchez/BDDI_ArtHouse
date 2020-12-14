@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+    }
+
+    .cube{
+        background: red;
+        width: 50%;
+        height: 50%;
+        margin: auto;
+    }
+</style>
+<body>
+    <div class="cube">
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zingtouch/1.0.6/zingtouch.min.js" integrity="sha512-HmaXasRYOQJEXJWYwYCMcIA/XnPtW9WPvaBVWE2mQP6K31sRdcgaYUyB//P5540J4hFqMBcj6vkDEEGkwHkYdA==" crossorigin="anonymous"></script>
+    <script>
+        const region = new ZingTouch.Region(document.body)
+        let rotation = new ZingTouch.Rotate()
+
+        let currentAngle = 0
+        let myCube = document.querySelector('.cube')
+        region.bind(myCube , rotation, function(e) {
+            currentAngle += e.detail.distanceFromLast
+
+            myCube.style.transform = `rotate(${currentAngle}deg)`
+        }, false)
+
+        let vitesse = 1
+        document.addEventListener('touchend', () => {
+                let interval = setInterval(() => {
+
+                    currentAngle += vitesse
+                    vitesse -= 0.01
+                    myCube.style.transform = `rotate(${currentAngle}deg)`
+                }, 10);
+
+                setTimeout(() => {
+                    clearInterval(interval)
+                    vitesse = 1
+                }, 1000)
+        })
+    </script>
+</body>
+</html>
