@@ -4,17 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gyroscope</title>
+    <style>
+    body{
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+    }
+
+    .cercle{
+        background: red;
+        width: 10%;
+        height: 10%;
+        margin: auto;
+        border-radius: 100px;
+    }
+    </style>
 </head>
+
 <body>
     <h1>Penche ton smartphone</h1>
+    <div class="cercle">
+
+    </div>
     <script>
+        let cercle = document.querySelector('.cercle')
+
         let handleOrientation = (event) => {
             let absolute = event.absolute;
             let alpha    = event.alpha;
-            let beta     = event.beta;
+            let beta     = - event.beta;
             let gamma    = event.gamma;
 
-            console.log(alpha, beta, gamma, absolute)
+            // console.log(alpha, beta, gamma)
+            console.log(beta)
+            cercle.style.transform = `translateY(${beta * 2}px)`
         }
         window.addEventListener("deviceorientation", handleOrientation, true);
     </script>
