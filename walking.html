@@ -7,15 +7,22 @@
 </head>
 <body>
     <h1>Marche avec le personnage</h1>
+    <img src="./img/gif/frame-01.gif" class="walk" alt="">
     <script>
-        let steps = 0
+        let steps = 1
+
+        let img = document.querySelector('.walk')
+        console.log(img.src,  window.location.origin)
+
         try{
             window.addEventListener('devicemotion', function(event) {
             
-            if(event.acceleration.x > 2){
+            if(event.acceleration.x > 3){
                 steps++
                 console.log(steps)
             }
+
+            img.src = window.location.origin + '/img/gif/frame-' + steps + '.gif'
         });
         } catch (e){
             console.log('erreur', e)
