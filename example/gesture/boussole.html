@@ -6,7 +6,7 @@
     <title>Document</title>
     <style>
         .boussole{
-            width: 20%;
+            width: 100%;
 
         }
     </style>
@@ -26,6 +26,10 @@
                     console.log(compassdir)
                 }
                 else compassdir = event.alpha;
+
+                compassdir = -compassdir
+                boussole.style.transform = `rotate(${compassdir}deg)`
+                // console.log(boussole.style.transform)
 
 
             });
