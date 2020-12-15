@@ -1,10 +1,35 @@
 import '../styles/App.css';
-import logo from '../assets/img/logo.svg';
+// import logo from '../assets/img/logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import SceneEtoile from './Scenes/SceneEtoile'
+import Home from './Home'
+import { useEffect, useState } from 'react';
 
 function App() {
+  let [isDesktop, setIsDesktop] = useState(true)
+  let [screenWidth, setScreenWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    if(screenWidth > 1600){
+      console.log('setDesktop true')
+      setIsDesktop(true)
+    } else {
+      setIsDesktop(false)
+    }
+  }, [screenWidth])
+
+  window.addEventListener('resize', () => {
+    // console.log('zazaza')
+    setScreenWidth(window.innerWidth)
+  })
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
           <div class="relative py-3 sm:max-w-xl sm:mx-auto">
             <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
@@ -61,8 +86,36 @@ function App() {
             </div>
           </div>
         </div>
-      </header>
+      </header> */}
+      {!isDesktop && 
+      <div className="Mobile">
+        <Router>
+          <nav>
+              <ul>
+                <li>
+                  <Link to="/home">Home</Link>
+                </li>
+                <li>
+                  <Link to="/sceneEtoile">SceneEtoile</Link>
+                </li>
+              </ul>
+            </nav>
+          <Switch>
+            <Route path="/home">
+              <Home />
+            </Route>
+            <Route path="/sceneEtoile">
+              <SceneEtoile />
+            </Route>
+          </Switch>
+        </Router>
+      </div>}
+      {isDesktop &&
+        <div className="Desktop">
+        <h1>Desktop</h1>
+      </div>}
     </div>
+
   );
 }
 
