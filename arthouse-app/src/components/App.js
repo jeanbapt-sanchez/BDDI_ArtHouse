@@ -26,15 +26,20 @@ function App() {
   })
 
   let history = useHistory()
+  let [currentPage, setCurrentPage] = useState('/')
+
+  const handleChangePage = (e) => {
+    console.log('azazaza', e)
+  }
 
   return (
       <div className="App">
         {!isDesktop && 
         <div className="Mobile">
-            <button onClick={() => {history.push("/interieur")}}>Intérieur plz</button>
+            {/* <button onClick={() => {history.push("/interieur")}}>Intérieur plz</button> */}
             <Switch>
               <Route path="/interieur">
-                <Interieur />
+                <Interieur onEndPage={handleChangePage}/>
               </Route>
               <Route path="/visualDesobedience">
                 <VisualDesobediance />
