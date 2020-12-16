@@ -67,8 +67,6 @@ const SceneLivre = (props) => {
         }
     }, [props.isMute])
 
-
-    let img = document.querySelector('.img')
     try{
         window.addEventListener('devicemotion', function(event) {
         
@@ -88,6 +86,29 @@ const SceneLivre = (props) => {
     } catch (e){
         console.log('erreur', e)
     }
+
+    if (window.DeviceOrientationEvent) {
+        // Listen for the deviceorientation event and handle the raw data
+        window.addEventListener('deviceorientation', function(event) {
+            var compassdir;
+
+            if(event.webkitCompassHeading) {
+                // Apple works only with this, alpha doesn't work
+                compassdir = event.webkitCompassHeading;  
+                console.log(compassdir)
+            }
+            else compassdir = event.alpha;
+
+            compassdir = -compassdir
+            boussoleRef.current.style.transform = `rotate(${compassdir}deg)`
+            // console.log(boussole.style.transform)
+            if(-compassdir > 179 && -compassdir < 181){
+                // TODO : Déclencher l'animation 
+                console.log('DECLENCHED ANINMATION')
+            }
+            
+        });
+}
 
     return(
         <div>
