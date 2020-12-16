@@ -11,8 +11,7 @@ import SceneLivre from './Scenes/SceneLivre';
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  let [currentPage, setCurrentPage] = useState('/')
-
+  
   let history = useHistory()
 
   useEffect((history) => {
@@ -23,7 +22,7 @@ function App() {
     } else {
       setIsDesktop(false)
     }
-  }, [screenWidth, currentPage])
+  }, [screenWidth])
 
 
   window.addEventListener('resize', () => {

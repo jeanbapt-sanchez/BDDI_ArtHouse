@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     fontFamily: {
       display: ['Montserrat', 'sans-serif'],
-
+      
     },
     fontWeight: {
       normal: 400,
