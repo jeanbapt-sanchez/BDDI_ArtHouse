@@ -1,3 +1,5 @@
 .body > *{
     position: absolute;
+    transition: transform .7s ease-in-out;
+    overflow: hidden;
 }

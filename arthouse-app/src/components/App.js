@@ -33,8 +33,8 @@ function App() {
       <div className="App font-display">
         {!isDesktop && 
         <div className="Mobile">
-            <h1 className="text-big font-bold">Hello les gens</h1>
-            <button onClick={() => {history.push('/interieur')}}>Intérieur</button>
+            {/* <h1 className="text-big font-bold">Hello les gens</h1>
+            <button onClick={() => {history.push('/interieur')}}>Intérieur</button> */}
             <Switch>
               <Route path="/interieur">
                 <Interieur />

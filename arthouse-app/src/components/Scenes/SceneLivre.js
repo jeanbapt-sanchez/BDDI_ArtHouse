@@ -9,10 +9,19 @@ import { useEffect, useRef } from 'react'
 
 const SceneLivre = () => {
     let bodySceneLivre = useRef(null)
+    let armoirRef = useRef(null)
+    let fleursRef = useRef(null)
+    let tableRef = useRef(null)
 
     useEffect(() => {
         setTimeout(() => {
-            console.log('lancer livre', bodySceneLivre.current.style.opacity = .5)
+            console.log('lancer livre',
+            bodySceneLivre.current.style.opacity = .5,
+            armoirRef.current.style.transform = 'translateX(-80%)',
+            fleursRef.current.style.transform = 'translateY(200%)',
+            tableRef.current.style.transform = 'translateY(-100%)',
+
+            )
         }, 1000)
     }, [])
 
@@ -39,9 +48,9 @@ const SceneLivre = () => {
         <div ref={bodySceneLivre} className="body w-screen h-screen overflow-hidden transition duration-700 ease-in-out">
             <h1>Coucou, je suiss dans la scène livres</h1>
             <img src={Bg} alt="background" className="w-screen"/>
-            <img src={Armoire} alt="armoire" className="z-1 w-5/12 right-0"></img>
-            <img src={Flowers} alt="fleurs" className="bottom-40"/>
-            <img src={Table} alt="table" className="bottom-0 z-10"/> 
+            <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -right-40 transition-form duration-700 ease-in-out"></img>
+            <img ref={fleursRef} src={Flowers} alt="fleurs" className="-top-80"/>
+            <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
             {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/>
             {/* <video allow='autoplay; encrypted-media' controls>
                 <source src={Shake} type="video/mp4"/>
