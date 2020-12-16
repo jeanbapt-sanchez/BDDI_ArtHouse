@@ -30,6 +30,7 @@ function App() {
 
   const handleChangePage = (e) => {
     console.log('azazaza', e)
+    // TODO : set the current page state and push the history with the good currentPage
   }
 
   return (
@@ -37,6 +38,7 @@ function App() {
         {!isDesktop && 
         <div className="Mobile">
             {/* <button onClick={() => {history.push("/interieur")}}>Intérieur plz</button> */}
+            <h1 class="font-display text-big font-bold">Hello les gens</h1>
             <Switch>
               <Route path="/interieur">
                 <Interieur onEndPage={handleChangePage}/>
