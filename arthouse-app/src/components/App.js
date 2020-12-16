@@ -14,28 +14,30 @@ function App() {
   let [isDesktop, setIsDesktop] = useState(true)
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
   let [isMute, setIsMute] = useState(false)
-
+  let [soundNotAccepted, setSoundNotAccepted] = useState(true)
   // let history = useHistory()
 
   let soundRef = useRef(null)
+  let soundEffect = new Audio();
 
   useEffect((history) => {
+
     if(screenWidth > 1600){
       setIsDesktop(true)
-    } else {
+    } else if(soundNotAccepted === false){
       setIsDesktop(false)
-      if(isMute === true){
-        setTimeout(() => {
-          soundRef.current.src = Sound
-        }, 1) 
-      } else {
+        if(isMute === true){
           setTimeout(() => {
-            console.log(soundRef)
-            soundRef.current.src = NoSound
-          }, 1)
-        }
+            soundRef.current.src = Sound
+          }, 1) 
+        } else {
+            setTimeout(() => {
+              console.log(soundRef)
+              soundRef.current.src = NoSound
+            }, 1)
+          }
     }
-  }, [screenWidth, isMute])
+  }, [screenWidth, isMute, soundNotAccepted])
 
 
   window.addEventListener('resize', () => {
@@ -44,7 +46,15 @@ function App() {
 
   return (
       <div className="App font-display w-full h-screen">
-        {!isDesktop && 
+        {soundNotAccepted && 
+          <div className="absolute top-1/2 left-1/2 text-white cursor-pointer">
+            <button onClick={() => {
+              setSoundNotAccepted(false)
+                soundEffect.play()  
+              }
+            }>J'accepte d'écouter de la musique</button>
+          </div>}
+        {!isDesktop && !soundNotAccepted &&
         <div className="Mobile w-full h-screen">
             <p><img 
             src={Sound} 
@@ -58,7 +68,7 @@ function App() {
                 <Interieur />
               </Route>
               <Route path="/sceneLivre">
-                <SceneLivre isMute={isMute}/>
+                <SceneLivre isMute={isMute} soundEffect={soundEffect}/>
               </Route>
             </Switch>
         </div>}

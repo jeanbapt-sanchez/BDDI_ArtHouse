@@ -29,6 +29,8 @@ const SceneLivre = (props) => {
     let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
     let [compassIsDisplay, setCompassIsDisplay] = useState(false)
 
+    const soundEffect = new Audio()
+
     useEffect(() => {
         setTimeout(() => {
             bodySceneLivre.current.style.opacity = .5
@@ -59,14 +61,17 @@ const SceneLivre = (props) => {
 
     useEffect(() => {
         if(props.isMute === true && audioRef.current.currentTime < 1){
-            audioRef.current.play()
-        } else if (audioRef.current.currentTime < 1){
-            audioRef.current.pause()
-        } else if (props.isMute === true && audioRef.current.currentTime > 1){
-            audioRef2.current.play()
-        } else if (audioRef.current.currentTime > 1){
-            audioRef.current.pause()
-            audioRef2.current.pause()
+            props.soundEffect.src = AudioS1
+            console.log(props.soundEffect)
+            props.soundEffect.play()
+            // props.soundEffectplay()
+        } else if (props.isMute === false){
+            props.soundEffect.pause()
+        } else if (props.isMute === true && props.soundEffectcurrentTime > 1){
+            // audioRef2.current.play()
+        } else if (props.soundEffectcurrentTime > 1){
+            props.soundEffect.pause()
+            // audioRef2.current.pause()
         }
     }, [props.isMute])
 
@@ -80,10 +85,12 @@ const SceneLivre = (props) => {
         }
         // img.style.opacity = progressionFaceDisplaying / 10
         if(progressionFaceDisplaying === 10){
-            // TODO : passer à l'animation suivante
-            // bodySceneLivre.current.style.opacity = 1
-
-            setGestureIsDisplay(false)
+            setCompassIsDisplay(true)
+            setTimeout(() => {
+                //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
+                boussoleRef.current.style.opacity = 1
+                flecheBoussoleRef.current.style.opacity = 1
+            }, 1000)
         } else if (progressionFaceDisplaying === 2){
             setGestureIsDisplay(false)
         }
@@ -118,7 +125,6 @@ const SceneLivre = (props) => {
     return(
         <div className="w-full">
             <div ref={bodySceneLivre} className="body w-full h-screen overflow-hidden transition duration-700 ease-in-out">
-                <h1>Coucou, je suiss dans la scène livres</h1>
                 <img src={Bg} alt="background" className="w-screen h-screen"/>
                 <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -top-2 -right-40 transition duration-700 ease-in-out"></img>
                 <img ref={fleursRef} src={Flowers} alt="fleurs" className="fleurs -top-2/3"/>
@@ -139,19 +145,13 @@ const SceneLivre = (props) => {
                 </audio>
 
             </div>
-            <button className="bottom-0 disa absolute" onClick={() => {
+            {/* <button className="bottom-0 disa absolute" onClick={() => {
                     setProgressionFaceDisplaying(10)
-                    // Là je lance dans x secondes l'indication gesture qu'il faut tourner son téléphone vers le sud
-                    setCompassIsDisplay(true)
-                    setTimeout(() => {
-                        //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
-                        boussoleRef.current.style.opacity = 1
-                        flecheBoussoleRef.current.style.opacity = 1
-                    }, 1000)
+                    // Là je lance dans x secondes l'indication gesture qu'il faut tourner son téléphone vers le su
 
                     audioRef2.current.play()
                 }
-                    }>Quitter le shake</button>
+                    }>Quitter le shake</button> */}
             {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="anim absolute top-0 opacity-0 z-50"/>}
             {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
             {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mt-2 transform rotate-180 top-1/4 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
