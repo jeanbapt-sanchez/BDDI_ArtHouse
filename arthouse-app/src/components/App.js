@@ -7,6 +7,8 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import Interieur from './Interieur';
 import SceneLivre from './Scenes/SceneLivre';
+import Sound from '../assets/pictos/sound.svg'
+import NoSound from '../assets/pictos/no-sound.svg'
 
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
@@ -15,7 +17,7 @@ function App() {
 
   // let history = useHistory()
 
-  let btnSound = useRef(null)
+  let soundRef = useRef(null)
 
   useEffect((history) => {
     if(screenWidth > 1600){
@@ -24,12 +26,14 @@ function App() {
       setIsDesktop(false)
       if(isMute === true){
         setTimeout(() => {
-          btnSound.current.innerHTML = 'Demute'
+          soundRef.current.src = Sound
         }, 1) 
       } else {
-        setTimeout(() => {
-          btnSound.current.innerHTML = 'Mute'
-        }, 1)       }
+          setTimeout(() => {
+            console.log(soundRef)
+            soundRef.current.src = NoSound
+          }, 1)
+        }
     }
   }, [screenWidth, isMute])
 
@@ -42,8 +46,13 @@ function App() {
       <div className="App font-display w-full h-screen">
         {!isDesktop && 
         <div className="Mobile w-full h-screen">
-            {/* <h1 className="text-big font-bold">Hello les gens</h1>
-            <button onClick={() => {history.push('/interieur')}}>Intérieur</button> */}
+            <p><img 
+            src={Sound} 
+            ref={soundRef} 
+            alt="sound" 
+            onClick={() => {setIsMute(!isMute)}} 
+            className="sound absolute left-5 top-4 w-10 z-80 cursor-pointer"
+            /></p>
             <Switch>
               <Route path="/interieur">
                 <Interieur />
@@ -52,7 +61,6 @@ function App() {
                 <SceneLivre isMute={isMute}/>
               </Route>
             </Switch>
-            <button className="muteBtn absolute bottom-10 z-80" ref={btnSound} onClick={() => {setIsMute(!isMute)}}>Mute</button>
         </div>}
         {isDesktop &&
           <div className="Desktop">
