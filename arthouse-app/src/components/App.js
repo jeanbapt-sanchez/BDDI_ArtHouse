@@ -4,25 +4,34 @@ import {
   Switch,
   Route, useHistory
 } from "react-router-dom";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Interieur from './Interieur';
 import SceneLivre from './Scenes/SceneLivre';
 
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  
+  let [isMute, setIsMute] = useState(false)
+
   let history = useHistory()
 
+  let btnSound = useRef(null)
+
   useEffect((history) => {
-    console.log('useEffect lancé')
     if(screenWidth > 1600){
-      console.log('setDesktop true')
       setIsDesktop(true)
     } else {
       setIsDesktop(false)
+      if(isMute === true){
+        setTimeout(() => {
+          btnSound.current.innerHTML = 'Demute'
+        }, 1) 
+      } else {
+        setTimeout(() => {
+          btnSound.current.innerHTML = 'Mute'
+        }, 1)       }
     }
-  }, [screenWidth])
+  }, [screenWidth, isMute])
 
 
   window.addEventListener('resize', () => {
@@ -40,14 +49,16 @@ function App() {
                 <Interieur />
               </Route>
               <Route path="/sceneLivre">
-                <SceneLivre />
+                <SceneLivre isMute={isMute}/>
               </Route>
             </Switch>
+            <button className="muteBtn absolute bottom-10 z-80" ref={btnSound} onClick={() => {setIsMute(!isMute)}}>Mute</button>
         </div>}
         {isDesktop &&
           <div className="Desktop">
           <h1>Desktop</h1>
         </div>}
+        
       </div>
   );
 }
