@@ -2,7 +2,8 @@ import Bg from '../../assets/img/01_Image/sol_et_fond.png'
 import Armoire from '../../assets/img/01_Image/armoire.png'
 import Flowers from '../../assets/img/01_Image/plan_horizontal.png'
 import Table from '../../assets/img/01_Image/table.png'
-// import Cadre from '../../assets/img/01_Image/cadre.svg'
+import Cadre from '../../assets/img/01_Image/cadre_photo.svg'
+import Visage from '../../assets/img/01_Image/visage_seul_1.svg'
 import Shake from '../../assets/gestures/geste_shake.gif'
 import AudioS1 from '../../assets/audio/scene1.mp3'
 import AudioS2 from '../../assets/audio/scene2.1.mp3'
@@ -21,11 +22,11 @@ const SceneLivre = (props) => {
     let audioRef2 = useRef(null)
     let boussoleRef = useRef(null)
     let flecheBoussoleRef = useRef(null)
+    let visageRef = useRef(null)
     
     let [gestureIsDisplay, setGestureIsDisplay] = useState(false)
     let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
     let [compassIsDisplay, setCompassIsDisplay] = useState(false)
-    // let [currentScene, setCurrentScene] = useState('scene1')
 
     useEffect(() => {
         setTimeout(() => {
@@ -73,11 +74,13 @@ const SceneLivre = (props) => {
         if(event.acceleration.y > 50){
             setProgressionFaceDisplaying(progressionFaceDisplaying + 1)
             console.log(progressionFaceDisplaying)
+            visageRef.current.style.opacity = progressionFaceDisplaying
         }
         // img.style.opacity = progressionFaceDisplaying / 10
         if(progressionFaceDisplaying === 10){
             // TODO : passer à l'animation suivante
             // bodySceneLivre.current.style.opacity = 1
+
             setGestureIsDisplay(false)
         } else if (progressionFaceDisplaying === 2){
             setGestureIsDisplay(false)
@@ -90,7 +93,7 @@ const SceneLivre = (props) => {
     if (window.DeviceOrientationEvent) {
         // Listen for the deviceorientation event and handle the raw data
         window.addEventListener('deviceorientation', function(event) {
-            var compassdir;
+            let compassdir;
 
             if(event.webkitCompassHeading) {
                 // Apple works only with this, alpha doesn't work
@@ -118,6 +121,8 @@ const SceneLivre = (props) => {
                 <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -right-40 transition-form duration-700 ease-in-out"></img>
                 <img ref={fleursRef} src={Flowers} alt="fleurs" className="-top-80"/>
                 <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
+                <img src={Cadre} alt="cadre" className="w-60 z-10 bottom-60 left-1/4"/>
+                <img src={Visage} ref={visageRef} alt="visage" className="visage ml-1 z-10 bottom-60 left-1/4 opacity-0"/>
                 {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
 
                 <audio ref={audioRef}
@@ -130,6 +135,7 @@ const SceneLivre = (props) => {
                         Your browser does not support the
                         <code>audio</code> element.
                 </audio>
+
             </div>
             <button className="bottom-0 disa absolute" onClick={() => {
                     setProgressionFaceDisplaying(10)
