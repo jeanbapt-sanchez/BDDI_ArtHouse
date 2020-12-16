@@ -137,8 +137,12 @@ const SceneLivre = (props) => {
                     props.soundEffect.src = AudioS2
                     console.log('play')
                     props.soundEffect.play()
+                    setCompassIsDisplay(true)
                     setTimeout(() => {
                         //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
+                        console.log('boussole ok')
+                        console.log(compassIsDisplay)
+                        bodySceneLivre.current.style.opacity = .5
                         boussoleRef.current.style.opacity = 1
                         flecheBoussoleRef.current.style.opacity = 1
                     }, 1000)
@@ -166,7 +170,7 @@ const SceneLivre = (props) => {
                     }>Quitter le shake</button> */}
             {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="anim absolute top-0 opacity-0 z-50"/>}
             {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
-            {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mt-2 transform rotate-180 top-1/4 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
+            {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mb-2 transform rotate-180 top-1/4 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
         </div>
         
     )
