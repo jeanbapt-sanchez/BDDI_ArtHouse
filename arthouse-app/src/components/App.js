@@ -13,7 +13,7 @@ import NoSound from '../assets/pictos/no-sound.svg'
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  let [isMute, setIsMute] = useState(false)
+  let [isVoice, setisVoice] = useState(false)
   let [soundNotAccepted, setSoundNotAccepted] = useState(true)
   // let history = useHistory()
 
@@ -26,18 +26,20 @@ function App() {
       setIsDesktop(true)
     } else if(soundNotAccepted === false){
       setIsDesktop(false)
-        if(isMute === true){
+        if(isVoice === true){
           setTimeout(() => {
             soundRef.current.src = Sound
+            // soundEffect.play()
           }, 1) 
         } else {
             setTimeout(() => {
               console.log(soundRef)
               soundRef.current.src = NoSound
+              // soundEffect.pause()
             }, 1)
           }
     }
-  }, [screenWidth, isMute, soundNotAccepted])
+  }, [screenWidth, isVoice, soundNotAccepted])
 
 
   window.addEventListener('resize', () => {
@@ -60,7 +62,7 @@ function App() {
             src={Sound} 
             ref={soundRef} 
             alt="sound" 
-            onClick={() => {setIsMute(!isMute)}} 
+            onClick={() => {setisVoice(!isVoice)}} 
             className="sound absolute left-5 top-4 w-10 z-80 cursor-pointer"
             /></p>
             <Switch>
@@ -68,7 +70,7 @@ function App() {
                 <Interieur />
               </Route>
               <Route path="/sceneLivre">
-                <SceneLivre isMute={isMute} soundEffect={soundEffect}/>
+                <SceneLivre isVoice={isVoice} soundEffect={soundEffect} soundNotAccepted={soundNotAccepted}/>
               </Route>
             </Switch>
         </div>}

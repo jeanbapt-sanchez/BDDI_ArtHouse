@@ -26,10 +26,8 @@ const SceneLivre = (props) => {
     let cadreRef = useRef(null)
     
     let [gestureIsDisplay, setGestureIsDisplay] = useState(false)
-    let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
+    // let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
     let [compassIsDisplay, setCompassIsDisplay] = useState(false)
-
-    const soundEffect = new Audio()
 
     useEffect(() => {
         setTimeout(() => {
@@ -39,88 +37,93 @@ const SceneLivre = (props) => {
             tableRef.current.style.bottom = '10%'
             cadreRef.current.style.bottom = '40%'
         }, 1000)
+        
 
         setTimeout(() => {
             setGestureIsDisplay(true)
             shakeRef.current.style.opacity = 1
-        }, 2000)
+            runSecousse()
+        }, 1000)
     }, [])
 
-    useEffect(() => {
-        if(progressionFaceDisplaying === 10){
-            // TODO : passer à l'animation suivante
-            // bodySceneLivre.current.style.opacity = 1
-            setGestureIsDisplay(false)
-            setTimeout(() => {
-                // setAudioS1(true)
-            }, 500)
-        } else if (progressionFaceDisplaying === 2){
-            setGestureIsDisplay(false)
-        }
-    }, [progressionFaceDisplaying])
+    // useEffect(() => {
+    //     if(props.soundNotAccepted){
+    //     // TODO POUR LA PROD : CHANGER LE TIMEOUT A 25000
+    //     setTimeout(() => {
+    //         setGestureIsDisplay(true)
+    //         shakeRef.current.style.opacity = 1
+    //         runSecousse()
+    //     }, 1000)
+    //     }
+    // }, [props.soundNotAccepted])
 
     useEffect(() => {
-        if(props.isMute === true && audioRef.current.currentTime < 1){
+        // console.log('mon mute :', props.isVoice)
+        if(props.isVoice === true && audioRef.current.currentTime < 1){
             props.soundEffect.src = AudioS1
-            console.log(props.soundEffect)
             props.soundEffect.play()
             // props.soundEffectplay()
-        } else if (props.isMute === false){
+        } else if (props.isVoice === false){
+            // console.log('stop ', props.soundEffect )
             props.soundEffect.pause()
-        } else if (props.isMute === true && props.soundEffectcurrentTime > 1){
+        } else if (props.isVoice === true && props.soundEffect.currentTime > 1){
             // audioRef2.current.play()
-        } else if (props.soundEffectcurrentTime > 1){
+        } else if (props.soundEffect.currentTime > 1){
             props.soundEffect.pause()
             // audioRef2.current.pause()
         }
-    }, [props.isMute])
+    }, [props.isVoice, props.soundEffect])
 
-    try{
-        window.addEventListener('devicemotion', function(event) {
-        
-        if(event.acceleration.y > 50){
-            setProgressionFaceDisplaying(progressionFaceDisplaying + 1)
+    const runSecousse = () => {
+        let progressionFaceDisplaying = 0
+        try{
+            window.addEventListener('devicemotion', function(event) {
             console.log(progressionFaceDisplaying)
-            visageRef.current.style.opacity = progressionFaceDisplaying
+            if(event.acceleration.y > 40){
+                // setProgressionFaceDisplaying(progressionFaceDisplaying + 1)
+                progressionFaceDisplaying++
+                console.log(progressionFaceDisplaying)
+                
+                visageRef.current.style.opacity = progressionFaceDisplaying / 10
+            }
+            if(progressionFaceDisplaying === 10){
+                setCompassIsDisplay(true)
+                bodySceneLivre.current.style.opacity = 1
+            } else if (progressionFaceDisplaying === 2){
+                setGestureIsDisplay(false)
+            }
+        });
+        } catch (e){
+            console.log('erreur', e)
         }
-        // img.style.opacity = progressionFaceDisplaying / 10
-        if(progressionFaceDisplaying === 10){
-            setCompassIsDisplay(true)
-            setTimeout(() => {
-                //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
-                boussoleRef.current.style.opacity = 1
-                flecheBoussoleRef.current.style.opacity = 1
-            }, 1000)
-        } else if (progressionFaceDisplaying === 2){
-            setGestureIsDisplay(false)
-        }
-    });
-    } catch (e){
-        console.log('erreur', e)
     }
 
-    if (window.DeviceOrientationEvent) {
-        // Listen for the deviceorientation event and handle the raw data
-        window.addEventListener('deviceorientation', function(event) {
-            let compassdir;
+    const runBoussole = () => {
+        if (window.DeviceOrientationEvent) {
+            // Listen for the deviceorientation event and handle the raw data
+            window.addEventListener('deviceorientation', function(event) {
+                console.log('coucou, pour la secouusse')
+                let compassdir;
+    
+                if(event.webkitCompassHeading) {
+                    // Apple works only with this, alpha doesn't work
+                    compassdir = event.webkitCompassHeading;  
+                    console.log(compassdir)
+                }
+                else compassdir = event.alpha;
+    
+                compassdir = -compassdir
+                boussoleRef.current.style.transform = `rotate(${compassdir}deg)`
+                // console.log(boussole.style.transform)
+                if(-compassdir > 179 && -compassdir < 181){
+                    // TODO : Déclencher l'animation 
+                    console.log('DECLENCHED ANINMATION')
+                }
+                
+            });
+        }
+    }
 
-            if(event.webkitCompassHeading) {
-                // Apple works only with this, alpha doesn't work
-                compassdir = event.webkitCompassHeading;  
-                console.log(compassdir)
-            }
-            else compassdir = event.alpha;
-
-            compassdir = -compassdir
-            boussoleRef.current.style.transform = `rotate(${compassdir}deg)`
-            // console.log(boussole.style.transform)
-            if(-compassdir > 179 && -compassdir < 181){
-                // TODO : Déclencher l'animation 
-                console.log('DECLENCHED ANINMATION')
-            }
-            
-        });
-}
 
     return(
         <div className="w-full">
@@ -130,7 +133,16 @@ const SceneLivre = (props) => {
                 <img ref={fleursRef} src={Flowers} alt="fleurs" className="fleurs -top-2/3"/>
                 <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
                 <img src={Cadre} ref={cadreRef} alt="cadre" className="cadre w-1/2 z-10 left-1/4 -bottom-80"/>
-                <img src={Visage} ref={visageRef} alt="visage" className="visage ml-1 z-10 bottom-60 left-1/4 opacity-0"/>
+                <img src={Visage} ref={visageRef} onClick={() => {
+                    props.soundEffect.src = AudioS2
+                    console.log('play')
+                    props.soundEffect.play()
+                    setTimeout(() => {
+                        //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
+                        boussoleRef.current.style.opacity = 1
+                        flecheBoussoleRef.current.style.opacity = 1
+                    }, 1000)
+                }} alt="visage" className="visage ml-4 mb-6 z-10 bottom-60 left-1/4 opacity-0"/>
                 {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
 
                 <audio ref={audioRef}
