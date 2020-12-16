@@ -6,45 +6,42 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import Interieur from './Interieur';
-import VisualDesobediance from './VisualDesobediance';
+import SceneLivre from './Scenes/SceneLivre';
 
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
+  let [currentPage, setCurrentPage] = useState('/')
 
-  useEffect(() => {
+  let history = useHistory()
+
+  useEffect((history) => {
+    console.log('useEffect lancé')
     if(screenWidth > 1600){
       console.log('setDesktop true')
       setIsDesktop(true)
     } else {
       setIsDesktop(false)
     }
-  }, [screenWidth])
+  }, [screenWidth, currentPage])
+
 
   window.addEventListener('resize', () => {
     setScreenWidth(window.innerWidth)
   })
 
-  let history = useHistory()
-  let [currentPage, setCurrentPage] = useState('/')
-
-  const handleChangePage = (e) => {
-    console.log('azazaza', e)
-    // TODO : set the current page state and push the history with the good currentPage
-  }
-
   return (
-      <div className="App">
+      <div className="App font-display">
         {!isDesktop && 
         <div className="Mobile">
-            {/* <button onClick={() => {history.push("/interieur")}}>Intérieur plz</button> */}
-            <h1 class="font-display text-big font-bold">Hello les gens</h1>
+            <h1 className="text-big font-bold">Hello les gens</h1>
+            <button onClick={() => {history.push('/interieur')}}>Intérieur</button>
             <Switch>
               <Route path="/interieur">
-                <Interieur onEndPage={handleChangePage}/>
+                <Interieur />
               </Route>
-              <Route path="/visualDesobedience">
-                <VisualDesobediance />
+              <Route path="/sceneLivre">
+                <SceneLivre />
               </Route>
             </Switch>
         </div>}

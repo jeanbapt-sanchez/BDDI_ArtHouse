@@ -1,24 +1,13 @@
-import React, { useEffect } from 'react'
+import React from 'react'
+import { useHistory } from 'react-router'
 
 const Interieur = (props) => {
-    console.log(props)
-    const handleChange = (e) => {
-        props.onEndPage('COUCOU LA STREET')
-    }
+    let history = useHistory()
 
-    useEffect(() => {
-        handleChange()
-    }, [])
     return (
         <div>
-            <h1>Choisi l'oeuvre que tu veux analyser</h1>
-                <nav>
-                    <ul>
-                        <li>
-                            <p>Ptn prend visuel desobediance</p>
-                        </li>
-                    </ul>
-                </nav>
+            <h1 className="text-big text-bold">Choisi l'oeuvre que tu veux analyser</h1>
+            <button onClick={() => {history.push('/sceneLivre')}}>Commencer la désobeisance visuelle</button>
 
         </div>
     )
