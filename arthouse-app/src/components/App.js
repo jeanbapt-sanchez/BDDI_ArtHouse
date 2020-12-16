@@ -2,7 +2,7 @@ import '../styles/App.css';
 // import logo from '../assets/img/logo.svg';
 import {
   Switch,
-  Route, useHistory
+  Route
 } from "react-router-dom";
 import { useEffect, useRef, useState } from 'react';
 import Interieur from './Interieur';
@@ -13,7 +13,7 @@ function App() {
   let [screenWidth, setScreenWidth] = useState(window.innerWidth)
   let [isMute, setIsMute] = useState(false)
 
-  let history = useHistory()
+  // let history = useHistory()
 
   let btnSound = useRef(null)
 

@@ -3,7 +3,7 @@ import Armoire from '../../assets/img/01_Image/armoire.png'
 import Flowers from '../../assets/img/01_Image/plan_horizontal.png'
 import Table from '../../assets/img/01_Image/table.png'
 // import Cadre from '../../assets/img/01_Image/cadre.svg'
-import Shake from '../../assets/gestures/shake.gif'
+import Shake from '../../assets/gestures/geste_shake.gif'
 import AudioS1 from '../../assets/audio/scene1.mp3'
 import AudioS2 from '../../assets/audio/scene2.1.mp3'
 import './styles/SceneLivre.css'
@@ -19,22 +19,22 @@ const SceneLivre = (props) => {
     let shakeRef = useRef(null)
     let audioRef = useRef(null)
     let audioRef2 = useRef(null)
+    let boussoleRef = useRef(null)
+    let flecheBoussoleRef = useRef(null)
     
     let [gestureIsDisplay, setGestureIsDisplay] = useState(false)
     let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
     let [compassIsDisplay, setCompassIsDisplay] = useState(false)
-    let [currentScene, setCurrentScene] = useState('scene1')
+    // let [currentScene, setCurrentScene] = useState('scene1')
 
     useEffect(() => {
         setTimeout(() => {
-            // console.log('lancer livre',
-            // // bodySceneLivre.current.style.opacity = .5,
-            // armoirRef.current.style.transform = 'translateX(-80%)',
-            // fleursRef.current.style.transform = 'translateY(200%)',
-            // tableRef.current.style.transform = 'translateY(-100%)',
-            // )
-            console.log(audioRef)
+            bodySceneLivre.current.style.opacity = .5
+            armoirRef.current.style.transform = 'translateX(-80%)'
+            fleursRef.current.style.transform = 'translateY(200%)'
+            tableRef.current.style.transform = 'translateY(-100%)'
         }, 1000)
+
         setTimeout(() => {
             setGestureIsDisplay(true)
             shakeRef.current.style.opacity = 1
@@ -46,7 +46,6 @@ const SceneLivre = (props) => {
             // TODO : passer à l'animation suivante
             // bodySceneLivre.current.style.opacity = 1
             setGestureIsDisplay(false)
-            console.log('égale à 10')
             setTimeout(() => {
                 // setAudioS1(true)
             }, 500)
@@ -56,15 +55,13 @@ const SceneLivre = (props) => {
     }, [progressionFaceDisplaying])
 
     useEffect(() => {
-        if(props.isMute === true && audioRef.current.currentTime < 3){
+        if(props.isMute === true && audioRef.current.currentTime < 1){
             audioRef.current.play()
-        } else if (audioRef.current.currentTime < 3){
-            console.log('audioRef1 paused')
+        } else if (audioRef.current.currentTime < 1){
             audioRef.current.pause()
-        } else if (props.isMute === true && audioRef.current.currentTime > 3){
+        } else if (props.isMute === true && audioRef.current.currentTime > 1){
             audioRef2.current.play()
-        } else if (audioRef.current.currentTime > 3){
-            console.log('audioRef1 paused après 3s')
+        } else if (audioRef.current.currentTime > 1){
             audioRef.current.pause()
             audioRef2.current.pause()
         }
@@ -84,7 +81,6 @@ const SceneLivre = (props) => {
             // TODO : passer à l'animation suivante
             // bodySceneLivre.current.style.opacity = 1
             setGestureIsDisplay(false)
-            console.log('égale à 10')
         } else if (progressionFaceDisplaying === 2){
             setGestureIsDisplay(false)
         }
@@ -94,36 +90,44 @@ const SceneLivre = (props) => {
     }
 
     return(
-        <div ref={bodySceneLivre} className="body w-screen h-screen overflow-hidden transition duration-700 ease-in-out">
-            <h1>Coucou, je suiss dans la scène livres</h1>
-            <img src={Bg} alt="background" className="w-screen"/>
-            <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -right-40 transition-form duration-700 ease-in-out"></img>
-            <img ref={fleursRef} src={Flowers} alt="fleurs" className="-top-80"/>
-            <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
-            {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
-            {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="opacity-0"/>}
-            <button className="bottom-0 disa" onClick={() => {
-                setProgressionFaceDisplaying(10)
-                // Là je lance dans x secondes l'indication gesture qu'il faut tourner son téléphone vers le sud
-                setTimeout(() => {
-                    setCompassIsDisplay(true)
-                }, 7000)
+        <div>
+            <div ref={bodySceneLivre} className="body w-screen h-screen overflow-hidden transition duration-700 ease-in-out">
+                <h1>Coucou, je suiss dans la scène livres</h1>
+                <img src={Bg} alt="background" className="w-screen"/>
+                <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -right-40 transition-form duration-700 ease-in-out"></img>
+                <img ref={fleursRef} src={Flowers} alt="fleurs" className="-top-80"/>
+                <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
+                {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
 
-                audioRef2.current.play()
-            }
-                }>Quitter le shake</button>
-            <audio ref={audioRef}
-                src={AudioS1}>
-                    Your browser does not support the
-                    <code>audio</code> element.
-            </audio>
-            <audio ref={audioRef2}
-                src={AudioS2}>
-                    Your browser does not support the
-                    <code>audio</code> element.
-            </audio>
-            {compassIsDisplay && <img src={Boussole} class="w-40" alt="fleche boussole" />}
+                <audio ref={audioRef}
+                    src={AudioS1}>
+                        Your browser does not support the
+                        <code>audio</code> element.
+                </audio>
+                <audio ref={audioRef2}
+                    src={AudioS2}>
+                        Your browser does not support the
+                        <code>audio</code> element.
+                </audio>
+            </div>
+            <button className="bottom-0 disa absolute" onClick={() => {
+                    setProgressionFaceDisplaying(10)
+                    // Là je lance dans x secondes l'indication gesture qu'il faut tourner son téléphone vers le sud
+                    setCompassIsDisplay(true)
+                    setTimeout(() => {
+                        //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
+                        boussoleRef.current.style.opacity = 1
+                        flecheBoussoleRef.current.style.opacity = 1
+                    }, 1000)
+
+                    audioRef2.current.play()
+                }
+                    }>Quitter le shake</button>
+            {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="anim absolute top-0 opacity-0 z-50"/>}
+            {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
+            {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mt-2 transform rotate-180 top-1/4 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
         </div>
+        
     )
 }
 
