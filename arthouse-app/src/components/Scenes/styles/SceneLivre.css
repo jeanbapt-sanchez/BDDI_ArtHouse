@@ -1,5 +1,9 @@
 .body > *{
     position: absolute;
-    transition: transform .7s ease-in-out;
+    transition: all .7s ease-in-out;
     overflow: hidden;
+}
+
+.disa {
+    z-index: 1000;
 }
