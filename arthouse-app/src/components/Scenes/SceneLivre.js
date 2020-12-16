@@ -23,6 +23,7 @@ const SceneLivre = (props) => {
     let boussoleRef = useRef(null)
     let flecheBoussoleRef = useRef(null)
     let visageRef = useRef(null)
+    let cadreRef = useRef(null)
     
     let [gestureIsDisplay, setGestureIsDisplay] = useState(false)
     let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
@@ -31,9 +32,10 @@ const SceneLivre = (props) => {
     useEffect(() => {
         setTimeout(() => {
             bodySceneLivre.current.style.opacity = .5
-            armoirRef.current.style.transform = 'translateX(-80%)'
-            fleursRef.current.style.transform = 'translateY(200%)'
-            tableRef.current.style.transform = 'translateY(-100%)'
+            armoirRef.current.style.right = '0'
+            fleursRef.current.style.top = '25%'
+            tableRef.current.style.bottom = '10%'
+            cadreRef.current.style.bottom = '40%'
         }, 1000)
 
         setTimeout(() => {
@@ -114,14 +116,14 @@ const SceneLivre = (props) => {
 }
 
     return(
-        <div>
-            <div ref={bodySceneLivre} className="body w-screen h-screen overflow-hidden transition duration-700 ease-in-out">
+        <div className="w-full">
+            <div ref={bodySceneLivre} className="body w-full h-screen overflow-hidden transition duration-700 ease-in-out">
                 <h1>Coucou, je suiss dans la scène livres</h1>
-                <img src={Bg} alt="background" className="w-screen"/>
-                <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -right-40 transition-form duration-700 ease-in-out"></img>
-                <img ref={fleursRef} src={Flowers} alt="fleurs" className="-top-80"/>
+                <img src={Bg} alt="background" className="w-screen h-screen"/>
+                <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -top-2 -right-40 transition duration-700 ease-in-out"></img>
+                <img ref={fleursRef} src={Flowers} alt="fleurs" className="fleurs -top-2/3"/>
                 <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
-                <img src={Cadre} alt="cadre" className="w-60 z-10 bottom-60 left-1/4"/>
+                <img src={Cadre} ref={cadreRef} alt="cadre" className="cadre w-1/2 z-10 left-1/4 -bottom-80"/>
                 <img src={Visage} ref={visageRef} alt="visage" className="visage ml-1 z-10 bottom-60 left-1/4 opacity-0"/>
                 {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
 

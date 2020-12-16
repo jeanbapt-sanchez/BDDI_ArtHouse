@@ -39,9 +39,9 @@ function App() {
   })
 
   return (
-      <div className="App font-display">
+      <div className="App font-display w-full h-screen">
         {!isDesktop && 
-        <div className="Mobile">
+        <div className="Mobile w-full h-screen">
             {/* <h1 className="text-big font-bold">Hello les gens</h1>
             <button onClick={() => {history.push('/interieur')}}>Intérieur</button> */}
             <Switch>
