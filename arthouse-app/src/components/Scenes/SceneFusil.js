@@ -1,12 +1,13 @@
 import './styles/SceneFusil.css'
 import Fusil from '../../assets/img/02_Fusil/fusil.gif'
-import FusilShoot from '../../assets/animations-vid/fusil-with-fleur.gif'
+import FusilShoot from '../../assets/animations-vid/fusil-fleur-one-loop.gif'
 import LastFrameShoot from '../../assets/img/02_Fusil/last-frame-fusil.gif'
 import Tirer from '../../assets/gestures/geste_tirer.gif'
 import Etale from '../../assets/img/02_Fusil/etal-min.png'
 import Plan1 from '../../assets/img/02_Fusil/plan1-min.png'
 import Plan2 from '../../assets/img/02_Fusil/plan2-min.png'
 import Caisse from '../../assets/img/02_Fusil/plan3_caisse-min.png'
+import Pollen from '../../assets/animations-vid/pollen.gif'
 import Scene21 from '../../assets/audio/scene2.1.mp3'
 import Scene22 from '../../assets/audio/scene2.2.mp3'
 import { useEffect, useRef, useState } from 'react'
@@ -21,11 +22,13 @@ const SceneFusil = (props) => {
     let plan1Ref = useRef()
     let plan2Ref = useRef()
     let caisseRef = useRef()
+    let pollenRef = useRef()
     let force = 0
     let direction = 0
 
     let [indicationShooting, setIndicationShooting] = useState(false)
-    let [decorIsDisplay, setDecorIsDisplay] = useState(true) 
+    let [decorIsDisplay, setDecorIsDisplay] = useState(true)
+    let [pollenIsDisplay, setPollenIsDisplay] = useState(false)
     props.soundEffect.src = Scene21
 
     const callBackShoot = () => {
@@ -33,26 +36,37 @@ const SceneFusil = (props) => {
         setIndicationShooting(false)
 
         if(force > 240 && (direction < 15 || direction > 350)){
-            // TODO : Déclencher l'animation de la
+            document.removeEventListener('touchend', callBackShoot, true)
+
             console.log('GIF DU FUSIL QUI TIRE')
             fusilRef.current.src = FusilShoot
             const TEMPSGIFFUSIL = 2500
             props.soundEffect.src = Scene22
             props.soundEffect.play()
+            
             setTimeout(() => {
                 console.log('Image de fin DU FUSIL QUI TIRE')
-                fusilRef.current.src = LastFrameShoot
                 bodySceneFusilRef.current.position = 'static'
                 const intervalScene22 = setInterval(() => {
                     if(props.soundEffect.currentTime > 5){
                         clearInterval(intervalScene22)
                         // TO DO : device motion pour suivre le pollen
-                        plan1Ref.current.style.transform = 'translateX(-200px)'
-                        plan2Ref.current.style.transform = 'translateX(200px)'
-                        caisseRef.current.style.transform = 'translateY(200px)'
+                        plan1Ref.current.style.transform = 'translateX(-600px)'
+                        plan2Ref.current.style.transform = 'translateX(600px)'
+                        caisseRef.current.style.transform = 'translateY(600px)'
                         setTimeout(() => {
                             setDecorIsDisplay(false)
+                            let multiplicateur = 1
+                            let handleOrientation = (event) => {
+                                let beta     = -event.beta;
+                                // console.log(alpha, beta, gamma)
+                                console.log(beta)
+                                window.scroll(0, (beta + 400) * 2)
+                                  multiplicateur += 100
+                            }
+                            window.addEventListener("deviceorientation", handleOrientation, true);
                         }, 800)
+                        
                     }
                 }, 100);
             }, TEMPSGIFFUSIL)
@@ -119,7 +133,9 @@ const SceneFusil = (props) => {
                 {decorIsDisplay && <img ref={plan1Ref} src={Plan1} className="bottom-2/3 -left-full z-20" alt="plan1"/>}
                 {decorIsDisplay && <img ref={plan2Ref} src={Plan2} className="bottom-2/3 -right-full z-10" alt="plan2"/>}
                 {decorIsDisplay && <img ref={caisseRef} src={Caisse} className="-bottom-10" alt="caisse"/>}
+                <img ref={pollenRef} src={Pollen} className="bottom2/3" alt="pollen"/>
                 <div ref={refRectangle} className="rectangle h-screen bg-grey w-1/3 bottom-O opacity-30"></div>
+                <div className="w-screen h-1/3 bottom-0 endPollen"></div>
             </div>
         </div>
     )
