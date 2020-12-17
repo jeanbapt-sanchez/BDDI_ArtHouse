@@ -3,12 +3,22 @@
 }
 
 .body-sceneFusil{
+    position: absolute;
+    top: -1200px;
     height: 300vh;
     background: url('../../../assets/img/02_Fusil/fond-min.png');
     background-size: cover;
+    overflow: scroll;
 }
 
 .fleur-pop {
     bottom: 5.2%;
     right: 43%;
+}
+
+.rectangle {
+    border-radius: 130%;
+    width: 60%;
+    left: -60%;
+    transform: translateY(200%)
 }

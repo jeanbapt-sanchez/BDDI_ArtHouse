@@ -45,6 +45,7 @@ const SceneLivre = (props) => {
             shakeRef.current.style.opacity = 1
             runSecousse()
         }, 2000)
+        // window.addEventListener('scroll', noScroll);
     }, [])
 
     useEffect(() => {
@@ -123,12 +124,13 @@ const SceneLivre = (props) => {
             }
         }
 
-
-
+        // const noScroll = () => {
+        //     window.scrollTo(0, 0);
+        // }
 
     return(
-        <div className="w-full">
-            <div ref={bodySceneLivre} className="body w-full h-screen fixed overflow-hidden transition duration-700 ease-in-out">
+        <div className="w-full h-screen fixed">
+            <div ref={bodySceneLivre} className="body w-full h-screen  overflow-x-hidden transition duration-700 ease-in-out">
                 <img src={Bg} alt="background" className="w-screen h-screen"/>
                 <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -top-2 -right-40 transition duration-700 ease-in-out"></img>
                 <img ref={fleursRef} src={Flowers} alt="fleurs" className="fleurs -top-2/3"/>

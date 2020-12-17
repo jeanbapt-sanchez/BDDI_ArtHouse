@@ -19,7 +19,8 @@
     "stylus": "^0.54.8",
     "stylus-loader": "^4.3.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "zingtouch": "^1.0.6"
   },
   "scripts": {
     "start": "craco start",
