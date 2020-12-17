@@ -1,0 +1,14 @@
+.body-sceneFusil > *{
+    position: absolute
+}
+
+.body-sceneFusil{
+    height: 300vh;
+    background: url('../../../assets/img/02_Fusil/fond-min.png');
+    background-size: cover;
+}
+
+.fleur-pop {
+    bottom: 5.2%;
+    right: 43%;
+}

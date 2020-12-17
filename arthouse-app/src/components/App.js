@@ -7,6 +7,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import Interieur from './Interieur';
 import SceneLivre from './Scenes/SceneLivre';
+import SceneFusil from './Scenes/SceneFusil';
 import Sound from '../assets/pictos/sound.svg'
 import NoSound from '../assets/pictos/no-sound.svg'
 
@@ -72,6 +73,9 @@ function App() {
               </Route>
               <Route path="/sceneLivre">
                 <SceneLivre isVoice={isVoice} soundEffect={soundEffect} soundNotAccepted={soundNotAccepted}/>
+              </Route>
+              <Route path="/sceneFusil">
+                <SceneFusil />
               </Route>
             </Switch>
         </div>}
