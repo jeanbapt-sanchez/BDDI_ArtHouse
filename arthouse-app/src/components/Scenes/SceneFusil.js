@@ -20,7 +20,7 @@ const SceneFusil = (props) => {
     props.soundEffect.src = Scene21
 
     const callBackShoot = () => {
-        
+        refRectangle.current.style.transform = `translate(0%)`
         setIndicationShooting(false)
 
         if(force > 240 && (direction < 15 || direction > 350)){
@@ -55,7 +55,6 @@ const SceneFusil = (props) => {
                     zt.bind(bodySceneFusilRef.current, pan, function(e){
                         e.preventDefault()
     
-                        refRectangle.current.style.transform = `translate(0%)`
                         bodySceneFusilRef.current.style.opacity = 1
     
                         let data = e.detail.data[0]
