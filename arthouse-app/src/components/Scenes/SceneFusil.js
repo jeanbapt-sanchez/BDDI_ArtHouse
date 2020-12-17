@@ -3,6 +3,10 @@ import Fusil from '../../assets/img/02_Fusil/fusil.gif'
 import FusilShoot from '../../assets/animations-vid/fusil-with-fleur.gif'
 import LastFrameShoot from '../../assets/img/02_Fusil/last-frame-fusil.gif'
 import Tirer from '../../assets/gestures/geste_tirer.gif'
+import Etale from '../../assets/img/02_Fusil/etal-min.png'
+import Plan1 from '../../assets/img/02_Fusil/plan1-min.png'
+import Plan2 from '../../assets/img/02_Fusil/plan2-min.png'
+import Caisse from '../../assets/img/02_Fusil/plan3_caisse-min.png'
 import Scene21 from '../../assets/audio/scene2.1.mp3'
 import { useEffect, useRef, useState } from 'react'
 import ZingTouch from 'zingtouch'
@@ -12,6 +16,10 @@ const SceneFusil = (props) => {
     let bodySceneFusilRef = useRef()
     let refRectangle = useRef()
     let fusilRef = useRef()
+    let etaleRef = useRef()
+    let plan1Ref = useRef()
+    let plan2Ref = useRef()
+    let caisseRef = useRef()
     let force = 0
     let direction = 0
 
@@ -28,6 +36,7 @@ const SceneFusil = (props) => {
             console.log('GIF DU FUSIL QUI TIRE')
             fusilRef.current.src = FusilShoot
             const TEMPSGIFFUSIL = 2500
+            
             setTimeout(() => {
                 console.log('Image de fin DU FUSIL QUI TIRE')
                 fusilRef.current.src = LastFrameShoot
@@ -38,7 +47,17 @@ const SceneFusil = (props) => {
     }
 
     useEffect(() => {
-        console.log(props.soundEffect.src, props.isVoice)
+        setTimeout(() => {
+            fusilRef.current.style.opacity = 1
+            etaleRef.current.style.opacity = 1
+            plan1Ref.current.style.left = '0'
+            plan2Ref.current.style.right = '0'
+            caisseRef.current.style.bottom = '66.6666%'
+        }, 1000)
+    }, [])
+
+    useEffect(() => {    
+
         if(props.isVoice === true){
             props.soundEffect.play()
             const interval = setInterval(() => {
@@ -79,16 +98,16 @@ const SceneFusil = (props) => {
     return (
         <div>
             {indicationShooting && <img src={Tirer} alt="indication tirer" className="absolute top-0" />}
-            <div ref={bodySceneFusilRef} onClick={() => {
-                    props.soundEffect.play()
-                }
-            } className="body-sceneFusil w-full h-full absolute transition-opacity duration-700 ease-in-out">
-                <img ref={fusilRef} src={Fusil} alt="fusil" className="fusil top-1/4"></img>
+            <div ref={bodySceneFusilRef} className="body-sceneFusil w-full h-full absolute transition-opacity duration-700 ease-in-out">
+                <img ref={fusilRef} src={Fusil} alt="fusil" className="fusil z-20"></img>
+                <img ref={etaleRef} src={Etale} className="bottom-2/3 opacity-0 z-10" alt="plan1"/>
+                <img ref={plan1Ref} src={Plan1} className="bottom-2/3 -left-full z-20" alt="plan1"/>
+                <img ref={plan2Ref} src={Plan2} className="bottom-2/3 -right-full z-10" alt="plan2"/>
+                <img ref={caisseRef} src={Caisse} className="-bottom-10" alt="caisse"/>
                 <div ref={refRectangle} className="rectangle h-screen bg-grey w-1/3 bottom-O opacity-30"></div>
+
             </div>
         </div>
-
-
     )
 }
 
