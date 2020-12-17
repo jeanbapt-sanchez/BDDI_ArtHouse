@@ -34,7 +34,7 @@ const SceneLivre = (props) => {
             bodySceneLivre.current.style.opacity = .5
             armoirRef.current.style.right = '0'
             fleursRef.current.style.top = '25%'
-            tableRef.current.style.bottom = '10%'
+            tableRef.current.style.bottom = '7%'
             cadreRef.current.style.bottom = '40%'
         }, 1000)
         
@@ -45,17 +45,6 @@ const SceneLivre = (props) => {
             runSecousse()
         }, 2000)
     }, [])
-
-    // useEffect(() => {
-    //     if(props.soundNotAccepted){
-    //     // TODO POUR LA PROD : CHANGER LE TIMEOUT A 25000
-    //     setTimeout(() => {
-    //         setGestureIsDisplay(true)
-    //         shakeRef.current.style.opacity = 1
-    //         runSecousse()
-    //     }, 1000)
-    //     }
-    // }, [props.soundNotAccepted])
 
     useEffect(() => {
         // console.log('mon mute :', props.isVoice)
@@ -82,12 +71,18 @@ const SceneLivre = (props) => {
         }
     }
 
+    const runBoussole = () => {
+        if (window.DeviceOrientationEvent) {
+            // Listen for the deviceorientation event and handle the raw data
+            window.addEventListener('deviceorientation', callBackBoussole, true);
+        }
+    }
+
     let progressionFaceDisplaying = 0
     const callBackSecousse = (event) => {
         console.log('callBackSecousse se lance')
             console.log(progressionFaceDisplaying)
             if(event.acceleration.y > 40){
-                // setProgressionFaceDisplaying(progressionFaceDisplaying + 1)
                 progressionFaceDisplaying++
                 console.log(progressionFaceDisplaying)
                 
@@ -97,13 +92,6 @@ const SceneLivre = (props) => {
                 window.removeEventListener('devicemotion', callBackSecousse, true)
                 bodySceneLivre.current.style.opacity = 1
 
-                // TODO : lancé l'animation du visage et le son du visage
-
-                // TO DO : CHanger la valeur du Timeout en le temps de parlote du visage
-                // setTimeout(() => {
-                //     bodySceneLivre.current.style.opacity = .5
-                //     setCompassIsDisplay(true)
-                // }, 1000)
             } else if (progressionFaceDisplaying === 2){
                 setGestureIsDisplay(false)
             }
@@ -132,12 +120,7 @@ const SceneLivre = (props) => {
             }
         }
 
-    const runBoussole = () => {
-        if (window.DeviceOrientationEvent) {
-            // Listen for the deviceorientation event and handle the raw data
-            window.addEventListener('deviceorientation', callBackBoussole, true);
-        }
-    }
+
 
 
     return(
@@ -152,10 +135,11 @@ const SceneLivre = (props) => {
                     props.soundEffect.src = AudioS2
                     console.log('play')
                     props.soundEffect.play()
-                    setCompassIsDisplay(true)
+                    // TO DO : Lancer le son et l'animation du visage
+
                     setTimeout(() => {
                         //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
-                        console.log('boussole ok')
+                        setCompassIsDisplay(true)
                         console.log(compassIsDisplay)
                         bodySceneLivre.current.style.opacity = .5
                         boussoleRef.current.style.opacity = 1
