@@ -118,7 +118,7 @@ const SceneLivre = (props) => {
                 flecheBoussoleRef.current.style.opacity = 0
                 bodySceneLivre.current.style.opacity = 1
                 window.removeEventListener('deviceorientation', callBackBoussole, true)
-                setRedirect('/sceneFusil')
+                setRedirect('/sceneFusil#fusil')
                 // TODO : Déclencher l'animation 
                 console.log('DECLENCHED ANINMATION')
             }
