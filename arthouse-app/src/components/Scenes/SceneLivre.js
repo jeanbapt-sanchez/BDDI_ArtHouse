@@ -135,11 +135,12 @@ const SceneLivre = (props) => {
                     props.soundEffect.src = AudioS2
                     console.log('play')
                     props.soundEffect.play()
-                    // TO DO : Lancer le son et l'animation du visage
+    // TO DO : Lancer le son et l'animation du visage
 
                     setTimeout(() => {
                         //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
                         setCompassIsDisplay(true)
+                        console.log('boussole ok')
                         console.log(compassIsDisplay)
                         bodySceneLivre.current.style.opacity = .5
                         boussoleRef.current.style.opacity = 1
