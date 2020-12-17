@@ -11,6 +11,7 @@ import './styles/SceneLivre.css'
 import { useEffect, useRef, useState } from 'react'
 import Boussole from '../../assets/gestures/boussole-02.svg'
 import FlecheBoussole from '../../assets/gestures/boussole-03.svg'
+import { Redirect } from "react-router-dom";
 
 const SceneLivre = (props) => {
     let bodySceneLivre = useRef(null)
@@ -26,8 +27,8 @@ const SceneLivre = (props) => {
     let cadreRef = useRef(null)
     
     let [gestureIsDisplay, setGestureIsDisplay] = useState(false)
-    // let [progressionFaceDisplaying, setProgressionFaceDisplaying] = useState(0)
     let [compassIsDisplay, setCompassIsDisplay] = useState(false)
+    let [redirect, setRedirect] = useState(null)
 
     useEffect(() => {
         setTimeout(() => {
@@ -50,17 +51,18 @@ const SceneLivre = (props) => {
         // console.log('mon mute :', props.isVoice)
         if(props.isVoice === true && audioRef.current.currentTime < 1){
             props.soundEffect.src = AudioS1
-            props.soundEffect.play()
-            // props.soundEffectplay()
-        } else if (props.isVoice === false){
-            // console.log('stop ', props.soundEffect )
-            props.soundEffect.pause()
-        } else if (props.isVoice === true && props.soundEffect.currentTime > 1){
-            // audioRef2.current.play()
-        } else if (props.soundEffect.currentTime > 1){
-            props.soundEffect.pause()
-            // audioRef2.current.pause()
+            // props.soundEffect.play()
         }
+        // props.soundEffectplay()
+        // } else if (props.isVoice === false){
+        //     // console.log('stop ', props.soundEffect )
+        //     props.soundEffect.pause()
+        // } else if (props.isVoice === true && props.soundEffect.currentTime > 1){
+        //     // audioRef2.current.play()
+        // } else if (props.soundEffect.currentTime > 1){
+        //     props.soundEffect.pause()
+        //     // audioRef2.current.pause()
+        // }
     }, [props.isVoice, props.soundEffect])
 
     const runSecousse = () => {
@@ -114,7 +116,8 @@ const SceneLivre = (props) => {
                 boussoleRef.current.style.opacity = 0
                 flecheBoussoleRef.current.style.opacity = 0
                 bodySceneLivre.current.style.opacity = 1
-                window.removeEventListener('devicemotion', callBackBoussole, true)
+                window.removeEventListener('deviceorientation', callBackBoussole, true)
+                setRedirect('/sceneFusil')
                 // TODO : Déclencher l'animation 
                 console.log('DECLENCHED ANINMATION')
             }
@@ -135,7 +138,7 @@ const SceneLivre = (props) => {
                     props.soundEffect.src = AudioS2
                     console.log('play')
                     props.soundEffect.play()
-    // TO DO : Lancer le son et l'animation du visage
+                    // TO DO : Lancer le son et l'animation du visage
 
                     setTimeout(() => {
                         //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
@@ -172,6 +175,8 @@ const SceneLivre = (props) => {
             {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="anim absolute top-0 opacity-0 z-50"/>}
             {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition-opacity duration-500 ease-in-out" alt="fleche boussole" />}
             {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mb-2 transform rotate-180 top-1/4 opacity-0 transition-opacity duration-500 ease-in-out" alt="fleche boussole" />}
+
+            {redirect && <Redirect to={redirect} />}
         </div>
         
     )

@@ -19,6 +19,7 @@ function App() {
 
   let soundRef = useRef(null)
   let soundEffect = new Audio();
+  console.log(soundEffect)
 
   useEffect((history) => {
 
@@ -29,13 +30,13 @@ function App() {
         if(isVoice === true){
           setTimeout(() => {
             soundRef.current.src = Sound
-            // soundEffect.play()
+            soundEffect.play()
           }, 1) 
         } else {
             setTimeout(() => {
               console.log(soundRef)
               soundRef.current.src = NoSound
-              // soundEffect.pause()
+              soundEffect.pause()
             }, 1)
           }
     }
