@@ -10,6 +10,7 @@ import SceneLivre from './Scenes/SceneLivre';
 import SceneFusil from './Scenes/SceneFusil';
 import Sound from '../assets/pictos/sound.svg'
 import NoSound from '../assets/pictos/no-sound.svg'
+import ScenePersonnage from './Scenes/ScenePersonnage';
 
 function App() {
   let [isDesktop, setIsDesktop] = useState(true)
@@ -76,6 +77,9 @@ function App() {
               </Route>
               <Route path="/sceneFusil">
                 <SceneFusil soundEffect={soundEffect} isVoice={isVoice}/>
+              </Route>
+              <Route path="/scenePersonnage">
+                <ScenePersonnage soundEffect={soundEffect} isVoice={isVoice}/>
               </Route>
             </Switch>
         </div>}

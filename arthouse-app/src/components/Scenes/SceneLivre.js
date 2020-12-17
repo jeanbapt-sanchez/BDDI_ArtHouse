@@ -119,7 +119,10 @@ const SceneLivre = (props) => {
                 flecheBoussoleRef.current.style.opacity = 0
                 bodySceneLivre.current.style.opacity = 1
                 window.removeEventListener('deviceorientation', callBackBoussole, true)
-                setRedirect('/sceneFusil#fusil')
+                bodySceneLivre.current.style.opacity = 0
+                setTimeout(() => {
+                    setRedirect('/sceneFusil#fusil')
+                }, 1000)
                 // TODO : Déclencher l'animation 
                 console.log('DECLENCHED ANINMATION')
             }
@@ -127,7 +130,7 @@ const SceneLivre = (props) => {
 
     return(
         <div className="w-full h-screen fixed">
-            <div ref={bodySceneLivre} className="body w-full h-screen  overflow-x-hidden transition duration-700 ease-in-out">
+            <div ref={bodySceneLivre} className="body w-full h-screen  overflow-x-hidden transition-opacity duration-700 ease-in-out">
                 <img src={Bg} alt="background" className="w-screen h-screen"/>
                 <img ref={armoirRef} src={Armoire} alt="armoire" className="z-1 w-5/12 -top-2 -right-40 transition duration-700 ease-in-out"></img>
                 <img ref={fleursRef} src={Flowers} alt="fleurs" className="fleurs -top-2/3"/>
