@@ -3,10 +3,11 @@ import Armoire from '../../assets/img/01_Image/armoire.png'
 import Flowers from '../../assets/img/01_Image/plan_horizontal.png'
 import Table from '../../assets/img/01_Image/table.png'
 import Cadre from '../../assets/img/01_Image/cadre_photo.svg'
-import Visage from '../../assets/img/01_Image/visage_seul_1.svg'
+import Visage from '../../assets/img/01_Image/visage-seul-1.gif'
+import VisageParle from '../../assets/animations-vid/visage-one-loop.gif'
 import Shake from '../../assets/gestures/geste_shake.gif'
 import AudioS1 from '../../assets/audio/scene1.mp3'
-import AudioS2 from '../../assets/audio/scene2.1.mp3'
+import AudioS2 from '../../assets/audio/image_qui_parle.mp3'
 import './styles/SceneLivre.css'
 import { useEffect, useRef, useState } from 'react'
 import Boussole from '../../assets/gestures/boussole-02.svg'
@@ -124,10 +125,6 @@ const SceneLivre = (props) => {
             }
         }
 
-        // const noScroll = () => {
-        //     window.scrollTo(0, 0);
-        // }
-
     return(
         <div className="w-full h-screen fixed">
             <div ref={bodySceneLivre} className="body w-full h-screen  overflow-x-hidden transition duration-700 ease-in-out">
@@ -137,22 +134,27 @@ const SceneLivre = (props) => {
                 <img ref={tableRef} src={Table} alt="table" className="z-10 -bottom-80"/>
                 <img src={Cadre} ref={cadreRef} alt="cadre" className="cadre w-1/2 z-10 left-1/4 -bottom-80"/>
                 <img src={Visage} ref={visageRef} onClick={() => {
+                    visageRef.current.src = VisageParle
                     props.soundEffect.src = AudioS2
                     console.log('play')
                     props.soundEffect.play()
                     // TO DO : Lancer le son et l'animation du visage
 
-                    setTimeout(() => {
-                        //TO DO : Assigner la bonne valeur au setTimeout avec le temps de parole du visage
-                        setCompassIsDisplay(true)
-                        console.log('boussole ok')
-                        console.log(compassIsDisplay)
-                        bodySceneLivre.current.style.opacity = .5
-                        boussoleRef.current.style.opacity = 1
-                        flecheBoussoleRef.current.style.opacity = 1
-                        runBoussole()
-                    }, 1000)
-                }} alt="visage" className="visage ml-4 mb-6 z-10 bottom-60 left-1/4 opacity-0"/>
+                    const interval = setInterval(() => {
+                        if(props.soundEffect.currentTime > 14.5){
+                            setTimeout(() => {
+                                setCompassIsDisplay(true)
+                                console.log('boussole ok')
+                                console.log(compassIsDisplay)
+                                bodySceneLivre.current.style.opacity = .5
+                                boussoleRef.current.style.opacity = 1
+                                flecheBoussoleRef.current.style.opacity = 1
+                                runBoussole()
+                            }, 1000)
+                            clearInterval(interval)
+                        }
+                    }, 500)
+                }} alt="visage" className="visage mb-9 z-10 bottom-60 left-1/4 opacity-0"/>
                 {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
 
                 <audio ref={audioRef}
