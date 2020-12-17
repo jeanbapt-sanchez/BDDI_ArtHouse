@@ -1,6 +1,7 @@
 import './styles/SceneFusil.css'
-import Fleur from '../../assets/animations-vid/fleur-transparent.gif'
-import Fusil from '../../assets/img/02_Fusil/fusil-min.png'
+import Fusil from '../../assets/img/02_Fusil/fusil.gif'
+import FusilShoot from '../../assets/animations-vid/fusil-with-fleur.gif'
+import LastFrameShoot from '../../assets/img/02_Fusil/last-frame-fusil.gif'
 import FleurEclot from '../../assets/img/02_Fusil/fleur-eclot.gif'
 import { useEffect, useRef, useState } from 'react'
 import ZingTouch from 'zingtouch'
@@ -47,14 +48,14 @@ const SceneFusil = () => {
 
     const callBackShoot = () => {
         refRectangle.current.style.transform = `translate(0%)`
-        if(force > 240 && direction > 0 && direction < 15){
+        if(force > 240 && (direction < 15 || direction > 350)){
             // TODO : Déclencher l'animation de la
             console.log('GIF DU FUSIL QUI TIRE')
-            fusilRef.current.src = 'GIF DU FUSIL QUI TIRE'
-            const TEMPSGIFFUSIL = 1000
+            fusilRef.current.src = FusilShoot
+            const TEMPSGIFFUSIL = 2500
             setTimeout(() => {
                 console.log('Image de fin DU FUSIL QUI TIRE')
-                fusilRef.current.src = 'Image de fin DU FUSIL QUI TIRE'
+                fusilRef.current.src = LastFrameShoot
             }, TEMPSGIFFUSIL)
 
             bodySceneFusilRef.current.removeEventListener('touchend', callBackShoot, true)
@@ -64,11 +65,9 @@ const SceneFusil = () => {
 
     return (
         <div ref={bodySceneFusilRef} className="body-sceneFusil w-full h-full absolute">
-            <p>Coucou</p>
             <img ref={fusilRef} src={Fusil} alt="fusil" onClick={() => {
                 // setIsFire(true)
-            }} className="w-2/3 top-0 right-0"></img>
-            {isFire && <img src={Fleur} ref={fleurRef} id="fusil" alt="fleurs" className="fleur-pop w-2/3 right-1/3"/>}
+            }} className="fusil top-1/4"></img>
             <div ref={refRectangle} className="rectangle h-screen bg-grey w-1/3 bottom-O opacity-30"></div>
         </div>
 
