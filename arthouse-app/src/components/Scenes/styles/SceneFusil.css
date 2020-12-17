@@ -4,13 +4,9 @@
 }
 
 .body-sceneFusil{
-    position: fixed;
-    /* position: absolute;
-    top: -1200px; */
     height: 300vh;
     background: url('../../../assets/img/02_Fusil/fond-min.png');
     background-size: cover;
-    overflow: visible;
 }
 
 .fleur-pop {
@@ -26,8 +22,11 @@
 }
 
 .fusil {
-
     width: 90%;
     bottom: 76.5%;
     right: 14%;
+}
+
+.symetrie {
+    transform: rotateX(-180deg);
 }

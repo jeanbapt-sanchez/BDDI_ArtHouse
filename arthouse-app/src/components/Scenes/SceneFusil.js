@@ -8,6 +8,7 @@ import Plan1 from '../../assets/img/02_Fusil/plan1-min.png'
 import Plan2 from '../../assets/img/02_Fusil/plan2-min.png'
 import Caisse from '../../assets/img/02_Fusil/plan3_caisse-min.png'
 import Scene21 from '../../assets/audio/scene2.1.mp3'
+import Scene22 from '../../assets/audio/scene2.2.mp3'
 import { useEffect, useRef, useState } from 'react'
 import ZingTouch from 'zingtouch'
 
@@ -24,7 +25,7 @@ const SceneFusil = (props) => {
     let direction = 0
 
     let [indicationShooting, setIndicationShooting] = useState(false)
-
+    let [decorIsDisplay, setDecorIsDisplay] = useState(true) 
     props.soundEffect.src = Scene21
 
     const callBackShoot = () => {
@@ -36,13 +37,26 @@ const SceneFusil = (props) => {
             console.log('GIF DU FUSIL QUI TIRE')
             fusilRef.current.src = FusilShoot
             const TEMPSGIFFUSIL = 2500
-            
+            props.soundEffect.src = Scene22
+            props.soundEffect.play()
             setTimeout(() => {
                 console.log('Image de fin DU FUSIL QUI TIRE')
                 fusilRef.current.src = LastFrameShoot
+                bodySceneFusilRef.current.position = 'static'
+                const intervalScene22 = setInterval(() => {
+                    if(props.soundEffect.currentTime > 5){
+                        clearInterval(intervalScene22)
+                        // TO DO : device motion pour suivre le pollen
+                        plan1Ref.current.style.transform = 'translateX(-200px)'
+                        plan2Ref.current.style.transform = 'translateX(200px)'
+                        caisseRef.current.style.transform = 'translateY(200px)'
+                        setTimeout(() => {
+                            setDecorIsDisplay(false)
+                        }, 800)
+                    }
+                }, 100);
             }, TEMPSGIFFUSIL)
 
-            bodySceneFusilRef.current.removeEventListener('touchend', callBackShoot, true)
         }
     }
 
@@ -71,6 +85,7 @@ const SceneFusil = (props) => {
                     const pan = new ZingTouch.Pan({
                         numInputs: 1
                     })
+
                     zt.bind(bodySceneFusilRef.current, pan, function(e){
                         e.preventDefault()
     
@@ -97,15 +112,14 @@ const SceneFusil = (props) => {
 
     return (
         <div>
-            {indicationShooting && <img src={Tirer} alt="indication tirer" className="absolute top-0" />}
-            <div ref={bodySceneFusilRef} className="body-sceneFusil w-full h-full absolute transition-opacity duration-700 ease-in-out">
-                <img ref={fusilRef} src={Fusil} alt="fusil" className="fusil z-20"></img>
+            {indicationShooting && <img src={Tirer} alt="indication tirer" className="absolute top-0 z-40" />}
+            <div ref={bodySceneFusilRef} className="body-sceneFusil w-full h-full absolute">
+                <img ref={fusilRef} src={Fusil} alt="fusil" className="fusil opacity-0 z-20"></img>
                 <img ref={etaleRef} src={Etale} className="bottom-2/3 opacity-0 z-10" alt="plan1"/>
-                <img ref={plan1Ref} src={Plan1} className="bottom-2/3 -left-full z-20" alt="plan1"/>
-                <img ref={plan2Ref} src={Plan2} className="bottom-2/3 -right-full z-10" alt="plan2"/>
-                <img ref={caisseRef} src={Caisse} className="-bottom-10" alt="caisse"/>
+                {decorIsDisplay && <img ref={plan1Ref} src={Plan1} className="bottom-2/3 -left-full z-20" alt="plan1"/>}
+                {decorIsDisplay && <img ref={plan2Ref} src={Plan2} className="bottom-2/3 -right-full z-10" alt="plan2"/>}
+                {decorIsDisplay && <img ref={caisseRef} src={Caisse} className="-bottom-10" alt="caisse"/>}
                 <div ref={refRectangle} className="rectangle h-screen bg-grey w-1/3 bottom-O opacity-30"></div>
-
             </div>
         </div>
     )
