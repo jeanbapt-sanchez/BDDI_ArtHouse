@@ -75,7 +75,7 @@ function App() {
                 <SceneLivre isVoice={isVoice} soundEffect={soundEffect} soundNotAccepted={soundNotAccepted}/>
               </Route>
               <Route path="/sceneFusil">
-                <SceneFusil />
+                <SceneFusil soundEffect={soundEffect} isVoice={isVoice}/>
               </Route>
             </Switch>
         </div>}
