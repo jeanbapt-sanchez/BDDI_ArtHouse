@@ -38,12 +38,12 @@ const SceneLivre = (props) => {
             cadreRef.current.style.bottom = '40%'
         }, 1000)
         
-
+        // TO DO : Implémenter le nombre de seconde de la durée de la première voix : TIMEOUT à 25000
         setTimeout(() => {
             setGestureIsDisplay(true)
             shakeRef.current.style.opacity = 1
             runSecousse()
-        }, 1000)
+        }, 2000)
     }, [])
 
     // useEffect(() => {
@@ -75,9 +75,16 @@ const SceneLivre = (props) => {
     }, [props.isVoice, props.soundEffect])
 
     const runSecousse = () => {
-        let progressionFaceDisplaying = 0
         try{
-            window.addEventListener('devicemotion', function(event) {
+            window.addEventListener('devicemotion', callBackSecousse, true);
+        } catch (e){
+            console.log('erreur', e)
+        }
+    }
+
+    let progressionFaceDisplaying = 0
+    const callBackSecousse = (event) => {
+        console.log('callBackSecousse se lance')
             console.log(progressionFaceDisplaying)
             if(event.acceleration.y > 40){
                 // setProgressionFaceDisplaying(progressionFaceDisplaying + 1)
@@ -86,41 +93,49 @@ const SceneLivre = (props) => {
                 
                 visageRef.current.style.opacity = progressionFaceDisplaying / 10
             }
-            if(progressionFaceDisplaying === 10){
-                setCompassIsDisplay(true)
+            if(progressionFaceDisplaying >= 10){
+                window.removeEventListener('devicemotion', callBackSecousse, true)
                 bodySceneLivre.current.style.opacity = 1
+
+                // TODO : lancé l'animation du visage et le son du visage
+
+                // TO DO : CHanger la valeur du Timeout en le temps de parlote du visage
+                // setTimeout(() => {
+                //     bodySceneLivre.current.style.opacity = .5
+                //     setCompassIsDisplay(true)
+                // }, 1000)
             } else if (progressionFaceDisplaying === 2){
                 setGestureIsDisplay(false)
             }
-        });
-        } catch (e){
-            console.log('erreur', e)
-        }
     }
+
+    const callBackBoussole = (event) => {
+            let compassdir;
+
+            if(event.webkitCompassHeading) {
+                // Apple works only with this, alpha doesn't work
+                compassdir = event.webkitCompassHeading;  
+                // console.log(compassdir)
+            }
+            else compassdir = event.alpha;
+
+            compassdir = -compassdir
+            boussoleRef.current.style.transform = `rotate(${compassdir}deg)`
+            // console.log(boussole.style.transform)
+            if(-compassdir > 179 && -compassdir < 181){
+                boussoleRef.current.style.opacity = 0
+                flecheBoussoleRef.current.style.opacity = 0
+                bodySceneLivre.current.style.opacity = 1
+                window.removeEventListener('devicemotion', callBackBoussole, true)
+                // TODO : Déclencher l'animation 
+                console.log('DECLENCHED ANINMATION')
+            }
+        }
 
     const runBoussole = () => {
         if (window.DeviceOrientationEvent) {
             // Listen for the deviceorientation event and handle the raw data
-            window.addEventListener('deviceorientation', function(event) {
-                console.log('coucou, pour la secouusse')
-                let compassdir;
-    
-                if(event.webkitCompassHeading) {
-                    // Apple works only with this, alpha doesn't work
-                    compassdir = event.webkitCompassHeading;  
-                    console.log(compassdir)
-                }
-                else compassdir = event.alpha;
-    
-                compassdir = -compassdir
-                boussoleRef.current.style.transform = `rotate(${compassdir}deg)`
-                // console.log(boussole.style.transform)
-                if(-compassdir > 179 && -compassdir < 181){
-                    // TODO : Déclencher l'animation 
-                    console.log('DECLENCHED ANINMATION')
-                }
-                
-            });
+            window.addEventListener('deviceorientation', callBackBoussole, true);
         }
     }
 
@@ -145,6 +160,7 @@ const SceneLivre = (props) => {
                         bodySceneLivre.current.style.opacity = .5
                         boussoleRef.current.style.opacity = 1
                         flecheBoussoleRef.current.style.opacity = 1
+                        runBoussole()
                     }, 1000)
                 }} alt="visage" className="visage ml-4 mb-6 z-10 bottom-60 left-1/4 opacity-0"/>
                 {/* <img src={Cadre} alt="Cadre Obey" className="bottom-0 z-10"/> */}
@@ -169,8 +185,8 @@ const SceneLivre = (props) => {
                 }
                     }>Quitter le shake</button> */}
             {gestureIsDisplay && <img ref={shakeRef} src={Shake} alt="shake" className="anim absolute top-0 opacity-0 z-50"/>}
-            {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
-            {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mb-2 transform rotate-180 top-1/4 opacity-0 transition duration-500 ease-in-out" alt="fleche boussole" />}
+            {compassIsDisplay && <img ref={boussoleRef} src={Boussole} className="w-40 absolute transform left-1/3  top-1/3 opacity-0 transition-opacity duration-500 ease-in-out" alt="fleche boussole" />}
+            {compassIsDisplay && <img ref={flecheBoussoleRef} src={FlecheBoussole} className="w-20 absolute left-1/3 ml-10 mb-2 transform rotate-180 top-1/4 opacity-0 transition-opacity duration-500 ease-in-out" alt="fleche boussole" />}
         </div>
         
     )
