@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+   <head>
+   </head>
+   <body>
+     <style>
+        body {
+          margin: 1em;
+          padding: 0;
+          font-family: Google Sans, Noto, Roboto, Helvetica Neue, sans-serif;
+          color: #244376;
+        }
+
+        #card {
+          margin: 3em auto;
+          display: flex;
+          flex-direction: column;
+          max-width: 600px;
+          border-radius: 6px;
+          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+          overflow: hidden;
+        }
+
+        model-viewer {
+          width: 100%;
+          height: 400px;
+          background-color: #70BCD1;
+          --poster-color: #ffffff00;
+        }
+
+        .attribution {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin: 1em;
+        }
+
+        .attribution h1 {
+          margin: 0 0 0.25em;
+        }
+
+        .attribution img {
+          opacity: 0.5;
+          height: 2em;
+        }
+
+        .attribution .cc {
+          flex-shrink: 0;
+          text-decoration: none;
+        }
+
+        footer {
+          display: flex;
+          flex-direction: column;
+          max-width: 600px;
+          margin: auto;
+          text-align: center;
+          font-style: italic;
+          line-height: 1.5em;
+        }
+
+        #lazy-load-poster {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          background-image: url("https://cdn.glitch.com/36cb8393-65c6-408d-a538-055ada20431b%2Fposter-astronaut.png?v=1599079951717");
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        #button-load {
+          background-image: url("https://cdn.glitch.com/36cb8393-65c6-408d-a538-055ada20431b%2Fposter-astronaut.png?v=1599079951717");
+          background-repeat: no-repeat;
+          background-size: 24px 24px;
+          background-position: 6% 50%;
+          background-color: #000;
+          color: white;
+          cursor: pointer;
+          border-radius: 6px;
+          display: inline-block;
+          padding: 10px 18px 9px 40px;
+          font-weight: 500;
+          box-shadow: 0 0 8px rgba(0,0,0,.2), 0 0 4px rgba(0,0,0,.25);
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate3d(-50%, -50%, 0);
+          z-index: 100;
+        }
+     </style>
+
+    <model-viewer
+    id="static-model"
+    src="./Didactique.glb"
+    ios-src="https://cdn.glitch.com/36cb8393-65c6-408d-a538-055ada20431b/Astronaut.usdz?v=1569545377878"
+    poster="https://cdn.glitch.com/36cb8393-65c6-408d-a538-055ada20431b%2Fposter-astronaut.png?v=1599079951717"
+    skybox-image="./vignaioli_night.jpg"
+    alt="A 3D model of an Visual Disobedience"
+    shadow-intensity="1"
+    camera-controls
+    auto-rotate
+    reveal
+    ar
+    autoplay
+    animation-name="museum-read"
+    >
+      <div class="controls">
+        <button onclick="exportGLB()">Export GLB</button>
+      </div>
+      <div id="lazy-load-poster" slot="poster"></div>
+      <div id="button-load" slot="poster">Click to reveal model</div>
+    </model-viewer>
+    <script>
+      ModelViewerElement = self.ModelViewerElement || {}
+      ModelViewerElement.minimumRenderScale = 0.25
+      async function exportGLB(){
+        let modelViewer = document.getElementById("static-model")
+        const glTF = await modelViewer.exportScene()
+        var file = new File([glTF], "export.glb")
+        var link = document.createElement("a")
+        link.download =file.name
+        link.href = URL.createObjectURL(file)
+        link.click()
+      }
+    </script>
+
+
+    <section class="attribution">
+      <span>
+        <h1>Visual Disobedience</h1>
+        <span>By Shepard Fairey</span>
+      </span>
+    </section>
+
+    <footer>
+      <span>This a proof of concept of ArtHouse</span>
+      <span>Gobelins immersive experience workshop</span>
+    </footer>
+
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script noModule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+   </body>
+</html>

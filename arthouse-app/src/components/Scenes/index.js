@@ -4,13 +4,12 @@ import NoSound from '../../assets/pictos/no-sound.svg'
 import SceneLivre from './SceneLivre';
 import Headphones from '../../assets/img/headphones.png'
 
-const Scene = () => {
+const Scene = (props) => {
   const [isDesktop, setIsDesktop] = useState(true)
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
   const [isVoice, setisVoice] = useState(false)
   const [soundNotAccepted, setSoundNotAccepted] = useState(true)
   const soundRef = useRef(null)
-  const soundEffect = new Audio();
 
   useEffect((history) => {
     if(screenWidth > 1600){
@@ -38,7 +37,7 @@ const Scene = () => {
 
   const playAudio = () => {
     setSoundNotAccepted(false)
-    soundEffect.play()
+    props.soundEffect.play()
   }
 
   return (
@@ -60,7 +59,7 @@ const Scene = () => {
                   onClick={() => {setisVoice(!isVoice)}}
                   className="sound absolute left-5 top-4 w-10 z-80 cursor-pointer"/>
               </p>
-              <SceneLivre isVoice={isVoice} soundEffect={soundEffect} soundNotAccepted={soundNotAccepted}/>
+              <SceneLivre isVoice={isVoice} soundEffect={props.soundEffect} soundNotAccepted={soundNotAccepted}/>
             </div>
           }
       </div>

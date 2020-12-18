@@ -5,8 +5,11 @@ import Experience from './Experience/index'
 import Inside from './Indoor/index';
 import ArMenu from './ArMenu/index';
 import Scene from './Scenes/index';
+import SceneLivre from './Scenes/SceneLivre';
+import SceneFusil from './Scenes/SceneFusil';
 
 function App() {
+  const soundEffect = new Audio();
   return (
     <Router>
       <Switch>
@@ -23,7 +26,13 @@ function App() {
           <Inside/>
         </Route>
         <Route exact path="/experience/indoor/scene">
-          <Scene/>
+          <Scene soundEffect={soundEffect}/>
+        </Route>
+        <Route exact path="/experience/indoor/scene/1">
+          <SceneLivre />
+        </Route>
+        <Route exact path="/experience/indoor/scene/2">
+          <SceneFusil soundEffect={soundEffect}/>
         </Route>
         <Route exact path="/experience/indoor/ar">
           <ArMenu />

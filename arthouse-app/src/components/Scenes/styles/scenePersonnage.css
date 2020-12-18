@@ -1,0 +1,51 @@
+
+.body-scenePersonnage{
+    width: 250vw;
+    overflow-y: hidden;
+}
+
+.perso{
+    width: 20%;
+    right: 0;
+    z-index: 9999;
+    position: sticky;
+}
+
+.collage{
+    width: 100%;
+    right: 0;
+    position: sticky;
+}
+
+.collage-1 {
+    z-index: 100;
+}
+
+.collage-2 {
+    z-index: 80;
+}
+
+.collage-3 {
+    z-index: 60;
+}
+
+.collage-4{
+    z-index: 40;
+}
+
+.rect-full-body{
+    width: 250vw;
+}
+
+.poteau {
+    position: sticky;
+    width: 10%;
+}
+
+.aeration {
+    position: sticky;
+    z-index: 9999;
+    top: 0;
+    right: 0;
+    width: 5%;
+}
