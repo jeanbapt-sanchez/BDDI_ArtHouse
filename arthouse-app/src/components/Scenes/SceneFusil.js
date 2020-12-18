@@ -67,7 +67,10 @@ const SceneFusil = (props) => {
                                 console.log(beta)
                                 window.scroll(0, (beta) * 15)
                                 if(beta > 117){
-                                    setRedirect('./scenePersonnage')
+                                    bodySceneFusilRef.current.style.opacity = 0
+                                    setTimeout(() => {
+                                        setRedirect('./scenePersonnage')
+                                    }, 1000)
                                 }
                             }
                             window.addEventListener("deviceorientation", handleOrientation, true);
