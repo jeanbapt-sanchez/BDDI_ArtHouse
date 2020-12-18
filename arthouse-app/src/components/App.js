@@ -1,85 +1,38 @@
-import '../styles/App.css';
-// import logo from '../assets/img/logo.svg';
-import {
-  Switch,
-  Route
-} from "react-router-dom";
-import { useEffect, useRef, useState } from 'react';
-import Interieur from './Interieur';
-import SceneLivre from './Scenes/SceneLivre';
-import Sound from '../assets/pictos/sound.svg'
-import NoSound from '../assets/pictos/no-sound.svg'
+import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Home from './Home/index'
+import Experience from './Experience/index'
+import Inside from './Indoor/index';
+import ArMenu from './ArMenu/index';
+import Scene from './Scenes/index';
 
 function App() {
-  let [isDesktop, setIsDesktop] = useState(true)
-  let [screenWidth, setScreenWidth] = useState(window.innerWidth)
-  let [isVoice, setisVoice] = useState(false)
-  let [soundNotAccepted, setSoundNotAccepted] = useState(true)
-  // let history = useHistory()
-
-  let soundRef = useRef(null)
-  let soundEffect = new Audio();
-
-  useEffect((history) => {
-
-    if(screenWidth > 1600){
-      setIsDesktop(true)
-    } else if(soundNotAccepted === false){
-      setIsDesktop(false)
-        if(isVoice === true){
-          setTimeout(() => {
-            soundRef.current.src = Sound
-            // soundEffect.play()
-          }, 1) 
-        } else {
-            setTimeout(() => {
-              console.log(soundRef)
-              soundRef.current.src = NoSound
-              // soundEffect.pause()
-            }, 1)
-          }
-    }
-  }, [screenWidth, isVoice, soundNotAccepted])
-
-
-  window.addEventListener('resize', () => {
-    setScreenWidth(window.innerWidth)
-  })
-
   return (
-      <div className="App font-display w-full h-screen">
-        {soundNotAccepted && 
-          <div className="absolute top-1/2 left-1/2 text-white cursor-pointer">
-            <button onClick={() => {
-              setSoundNotAccepted(false)
-                soundEffect.play()  
-              }
-            }>J'accepte d'écouter de la musique</button>
-          </div>}
-        {!isDesktop && !soundNotAccepted &&
-        <div className="Mobile w-full h-screen">
-            <p><img 
-            src={Sound} 
-            ref={soundRef} 
-            alt="sound" 
-            onClick={() => {setisVoice(!isVoice)}} 
-            className="sound absolute left-5 top-4 w-10 z-80 cursor-pointer"
-            /></p>
-            <Switch>
-              <Route path="/interieur">
-                <Interieur />
-              </Route>
-              <Route path="/sceneLivre">
-                <SceneLivre isVoice={isVoice} soundEffect={soundEffect} soundNotAccepted={soundNotAccepted}/>
-              </Route>
-            </Switch>
-        </div>}
-        {isDesktop &&
-          <div className="Desktop">
-          <h1>Desktop</h1>
-        </div>}
-        
-      </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home/>
+        </Route>
+        <Route exact path="/home">
+          <Home/>
+        </Route>
+        <Route exact path="/experience">
+          <Experience/>
+        </Route>
+        <Route exact path="/experience/indoor">
+          <Inside/>
+        </Route>
+        <Route exact path="/experience/indoor/scene">
+          <Scene/>
+        </Route>
+        <Route exact path="/experience/indoor/ar">
+          <ArMenu />
+        </Route>
+        <Route exact path="/experience/outdoor">
+          <p>Sorry Outdoor Experience is not available for demo</p>
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

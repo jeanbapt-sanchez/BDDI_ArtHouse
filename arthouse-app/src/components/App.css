@@ -1,0 +1,12 @@
+body {
+  background-image: url('../assets/img/appBackground.png');
+  color: #ffffff;
+}
+
+.sound{
+  z-index: 1999;
+}
+
+.muteBtn {
+  z-index:2000;
+}
